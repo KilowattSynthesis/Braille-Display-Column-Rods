@@ -52,7 +52,7 @@ class MainSpec:
     bushing_block_wall_thickness: float = 2.0
     bushing_block_slop_diameter: float = 0.5
 
-    bushing_block_screw_hole_id: float = 1.9  # M2 thread forming screw.
+    bushing_block_screw_hole_id: float = 1.8  # M2 thread forming screw.
     bushing_block_screw_hole_sep: float = 7.0  # Center to center.
 
     bushing_hall_sensor_width: float = 3.5 + 1
