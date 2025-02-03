@@ -15,10 +15,10 @@ from loguru import logger
 
 sys.path.append(str(Path(__file__).parent))
 
-from cad.tiny_dc_motor_with_gearbox import (
+from cad.components.tiny_dc_motor_with_gearbox import (
     MainSpec as MotorMainSpec,
 )
-from cad.tiny_dc_motor_with_gearbox import (
+from cad.components.tiny_dc_motor_with_gearbox import (
     make_dc_motor_and_gearbox,
 )
 
