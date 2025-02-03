@@ -25,7 +25,7 @@ from build123d_ease import show
 from loguru import logger
 
 # Prepare for imports from the parent directory.
-sys.path.insert(0, str(Path(__file__).parent.absolute()))
+sys.path.insert(0, str(Path(__file__).parent.parent.absolute()))
 from cad import dot_column_cam_rod_octagon
 
 
