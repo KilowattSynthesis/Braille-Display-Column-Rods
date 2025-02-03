@@ -70,6 +70,14 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
         align=bde.align.ANCHOR_BOTTOM,
     )
 
+    # Remove space for wires out the back.
+    p -= bd.Pos(X=-spec.general_length_x / 2) * bd.Box(
+        (spec.general_length_x - spec.motor_plus_gearbox_length),
+        spec.motor_od,
+        spec.motor_od / 2 + 1,
+        align=(bd.Align.MIN, bd.Align.CENTER, bd.Align.MIN),
+    )
+
     # Remove the motor body.
     p -= bd.Pos(
         X=(spec.general_length_x - spec.motor_plus_gearbox_length),
