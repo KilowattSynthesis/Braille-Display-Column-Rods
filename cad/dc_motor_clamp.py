@@ -19,6 +19,7 @@ class MainSpec:
     """Specification for the cam for the tiny DC motor."""
 
     motor_od: float = 6
+    motor_plus_gearbox_length: float = 18.7
 
     hole_spacing_x: float = 5.3
     hole_count_x: int = 3
@@ -59,19 +60,24 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
         align=bde.align.ANCHOR_BOTTOM,
     )
 
-    # Remove the motor body.
-    p -= bd.Pos(Z=spec.motor_od / 2) * bd.Cylinder(
-        spec.motor_od / 2,
-        spec.general_length_x,
-    ).rotate(axis=bd.Axis.Y, angle=90)
-
-    # Remove meat.
+    # Remove meat (bottom half of motor).
+    # Done in separate step to remove thin walls, and make it easy to slide
+    # the motor on all the way.
     p -= bd.Box(
-        100,
+        spec.general_length_x,
         spec.hole_spacing_y - 1.5,
         spec.motor_od / 2,
         align=bde.align.ANCHOR_BOTTOM,
     )
+
+    # Remove the motor body.
+    p -= bd.Pos(
+        X=(spec.general_length_x - spec.motor_plus_gearbox_length),
+        Z=spec.motor_od / 2,
+    ) * bd.Cylinder(
+        spec.motor_od / 2,
+        spec.general_length_x,
+    ).rotate(axis=bd.Axis.Y, angle=90)
 
     # Remove the screw holes.
     for x_value, y_value in product(

@@ -41,7 +41,12 @@ class MainSpec:
 
     def __post_init__(self) -> None:
         """Post initialization checks."""
-        data = {}
+        data = {
+            "motor+gearbox": self.motor_length + self.gearbox_length,
+            "motor+gearbox+shaft_lip": (
+                self.motor_length + self.gearbox_length + self.shaft_lip_length
+            ),
+        }
         logger.info(json.dumps(data, indent=2))
 
     def deep_copy(self) -> "MainSpec":
@@ -73,7 +78,7 @@ def make_dc_motor_and_gearbox(spec: MainSpec) -> bd.Part:
         align=bde.align.ANCHOR_TOP,
     )
 
-    # Draw the wires out tho bottom of the motor body.
+    # Draw the wires out the bottom of the motor body.
     for x_sign in (1, -1):
         p += bd.Pos(
             X=x_sign * 2,
