@@ -19,20 +19,19 @@ class MainSpec:
     """Specification for a micro stepper motor."""
 
     motor_od: float = 4.7
-    gearbox_od: float = 5.9  # Create a tiny lip.
 
-    motor_length: float = 6.5
+    motor_length: float = 6.0
 
     shaft_od: float = 0.7
     shaft_length: float = 1.0  # Excluding the shaft lip.
 
-    shaft_lip_od: float = 2.0
+    shaft_lip_od: float = 2.9
     shaft_lip_length: float = 0.4
 
-    pin_od: float = 0.7
+    pin_od: float = 0.6
     pin_length: float = 1.0
-    pin_spacing_x: float = 2.0
-    pin_spacing_y: float = 3.1
+    pin_spacing_x: float = 1.4
+    pin_spacing_y: float = 2.5
 
     def __post_init__(self) -> None:
         """Post initialization checks."""
@@ -46,6 +45,8 @@ class MainSpec:
 
 def make_micro_stepper_motor_od_4p7(spec: MainSpec) -> bd.Part:
     """Make a micro stepper motor with OD of 4.7mm.
+
+    Z=0 is right where the shaft starts, just past the lip.
 
     https://aliexpress.com/item/1005005998173233.html
     """
@@ -77,7 +78,8 @@ def make_micro_stepper_motor_od_4p7(spec: MainSpec) -> bd.Part:
         (0.5, 0.5 + spec.pin_spacing_y),
     ):
         p += bd.Pos(
-            X=pin_x, Z=(pin_y - spec.motor_length - spec.shaft_lip_length)
+            X=pin_x,
+            Z=(pin_y - spec.motor_length - spec.shaft_lip_length),
         ) * bd.Cylinder(
             spec.pin_od / 2,
             spec.pin_length + spec.motor_od / 2,

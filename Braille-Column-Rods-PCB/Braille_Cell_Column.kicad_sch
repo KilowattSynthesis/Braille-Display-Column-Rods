@@ -2171,7 +2171,6 @@
 	(hierarchical_label "~{SLEEP}"
 		(shape input)
 		(at 68.58 118.11 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2183,7 +2182,6 @@
 	(hierarchical_label "~{FAULT}"
 		(shape bidirectional)
 		(at 40.64 123.19 180)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2195,7 +2193,6 @@
 	(hierarchical_label "HALL_ANALOG_OUT"
 		(shape output)
 		(at 142.24 41.91 0)
-		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 1.27 1.27)
