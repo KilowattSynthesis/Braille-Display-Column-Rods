@@ -169,8 +169,10 @@ class HousingSpec:
     # Distance from outer dots to mounting holes. PCB property.
     x_dist_dots_to_mounting_holes: float = 5.0
     mounting_hole_spacing_y: float = 3
-    mounting_hole_diameter: float = 2  # Thread-forming screws from bottom.
+    mounting_hole_diameter: float = 1.7  # Thread-forming screws from bottom.
     margin_around_mounting_holes: float = 5.0  # Sets box size. Radius.
+    mounting_peg_diameter: float = 2.0
+    mounting_peg_length: float = 1.4
 
     cell_count_x: int = 4
 
@@ -465,19 +467,30 @@ def make_housing(
 
     # Remove the mounting holes.
     for x_val, y_val in product(
-        bde.evenly_space_with_center(
-            count=2,
-            spacing=spec.mounting_hole_spacing_x,
-        ),
-        bde.evenly_space_with_center(
-            count=3,
-            spacing=spec.mounting_hole_spacing_y,
-        ),
+        bde.evenly_space_with_center(count=2, spacing=spec.mounting_hole_spacing_x),
+        [0],
     ):
         p -= bd.Pos(x_val, y_val) * bd.Cylinder(
             radius=spec.mounting_hole_diameter / 2,
             height=spec.total_z,
             align=bde.align.ANCHOR_BOTTOM,
+        )
+
+    # Add mounting pegs.
+    for x_val, y_val in product(
+        bde.evenly_space_with_center(
+            count=2,
+            spacing=spec.mounting_hole_spacing_x,
+        ),
+        bde.evenly_space_with_center(
+            count=2,
+            spacing=spec.mounting_hole_spacing_y * 2,
+        ),
+    ):
+        p += bd.Pos(x_val, y_val) * bd.Cylinder(
+            radius=spec.mounting_peg_diameter / 2,
+            height=spec.mounting_peg_length,
+            align=bde.align.ANCHOR_TOP,
         )
 
     # Remove the braille dot holes.
