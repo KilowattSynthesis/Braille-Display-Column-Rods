@@ -13,8 +13,7 @@ import git
 from build123d_ease import show
 from loguru import logger
 
-sys.path.append(str(Path(__file__).parent))
-
+sys.path.append(str(Path(__file__).parent.parent))
 from cad.components.tiny_dc_motor_with_gearbox import (
     MainSpec as MotorMainSpec,
 )
