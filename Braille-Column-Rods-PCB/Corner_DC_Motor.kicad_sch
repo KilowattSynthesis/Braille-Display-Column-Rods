@@ -6,10 +6,181 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-01-06")
-		(rev "Rev 1")
+		(date "2025-02-03")
+		(rev "Rev 2")
 	)
 	(lib_symbols
+		(symbol "00-lib-symbols:AD116_H_Bridge"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U10"
+				(at 2.1941 10.16 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AD116"
+				(at 2.1941 7.62 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
+				(at 1.016 -21.336 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2307170950_IDCHIP-AD116_C7463412.pdf"
+				(at 1.016 -18.542 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 1.27 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "AD116_H_Bridge_1_1"
+				(rectangle
+					(start -7.62 5.08)
+					(end 8.89 -5.08)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin output line
+					(at 11.43 -2.54 180)
+					(length 2.54)
+					(name "OUT_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "IN_B"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "IN_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 7.62 270)
+					(length 2.54)
+					(name "VCC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 11.43 2.54 180)
+					(length 2.54)
+					(name "OUT_A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "00-lib-symbols:MT910xET"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -348,175 +519,6 @@
 						)
 					)
 					(number "MP2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-		)
-		(symbol "00-project-symbols:AD116_H_Bridge"
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(property "Reference" "U"
-				(at 2.54 6.096 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "AD116"
-				(at -5.334 6.096 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-				(at 1.016 -21.336 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Datasheet" "https://www.lcsc.com/datasheet/lcsc_datasheet_2307170950_IDCHIP-AD116_C7463412.pdf"
-				(at 1.016 -18.542 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(property "Description" ""
-				(at 1.27 0 0)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-					(hide yes)
-				)
-			)
-			(symbol "AD116_H_Bridge_1_1"
-				(rectangle
-					(start -7.62 5.08)
-					(end 8.89 -5.08)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type background)
-					)
-				)
-				(pin output line
-					(at 11.43 -2.54 180)
-					(length 2.54)
-					(name "OUT_B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 -7.62 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 -2.54 0)
-					(length 2.54)
-					(name "IN_B"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -10.16 2.54 0)
-					(length 2.54)
-					(name "IN_A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin power_in line
-					(at 0 7.62 270)
-					(length 2.54)
-					(name "VCC"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin output line
-					(at 11.43 2.54 180)
-					(length 2.54)
-					(name "OUT_A"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -1353,7 +1355,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 68.58) (xy 128.27 68.58)
+			(xy 118.11 68.58) (xy 129.54 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1443,7 +1445,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 78.74) (xy 138.43 78.74)
+			(xy 129.54 78.74) (xy 138.43 78.74)
 		)
 		(stroke
 			(width 0)
@@ -1473,7 +1475,7 @@
 	)
 	(wire
 		(pts
-			(xy 118.11 73.66) (xy 128.27 73.66)
+			(xy 118.11 73.66) (xy 129.54 73.66)
 		)
 		(stroke
 			(width 0)
@@ -1523,7 +1525,7 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 62.23) (xy 128.27 62.23)
+			(xy 138.43 62.23) (xy 129.54 62.23)
 		)
 		(stroke
 			(width 0)
@@ -1543,7 +1545,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 62.23) (xy 128.27 68.58)
+			(xy 129.54 62.23) (xy 129.54 68.58)
 		)
 		(stroke
 			(width 0)
@@ -1613,7 +1615,7 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 73.66) (xy 128.27 78.74)
+			(xy 129.54 73.66) (xy 129.54 78.74)
 		)
 		(stroke
 			(width 0)
@@ -2821,7 +2823,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "MT910xET"
+		(property "Value" "MT9101ET"
 			(at 218.44 146.0499 0)
 			(effects
 				(font
@@ -2849,6 +2851,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 222.25 144.78 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C2977713"
 			(at 222.25 144.78 0)
 			(effects
 				(font
@@ -2970,7 +2981,7 @@
 		)
 	)
 	(symbol
-		(lib_id "00-project-symbols:AD116_H_Bridge")
+		(lib_id "00-lib-symbols:AD116_H_Bridge")
 		(at 106.68 71.12 0)
 		(unit 1)
 		(exclude_from_sim no)
@@ -2988,7 +2999,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "AD116"
+		(property "Value" "AD116_or_BDR6120S"
 			(at 108.8741 63.5 0)
 			(effects
 				(font
@@ -3017,6 +3028,15 @@
 		)
 		(property "Description" ""
 			(at 107.95 71.12 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C5455570"
+			(at 106.68 71.12 0)
 			(effects
 				(font
 					(size 1.27 1.27)

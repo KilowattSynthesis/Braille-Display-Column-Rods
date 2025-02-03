@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-01-06")
-		(rev "Rev 1")
+		(date "2025-02-03")
+		(rev "Rev 2")
 	)
 	(lib_symbols
 		(symbol "Connector:Screw_Terminal_01x02"
@@ -2693,7 +2693,7 @@
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
-		(dnp no)
+		(dnp yes)
 		(fields_autoplaced yes)
 		(uuid "5b35aecf-fd5a-4a81-be6b-c8eb5e707c57")
 		(property "Reference" "C9"

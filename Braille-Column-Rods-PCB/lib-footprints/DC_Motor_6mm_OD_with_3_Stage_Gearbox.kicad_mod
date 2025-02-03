@@ -5,7 +5,6 @@
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at -17.2 0 0)
-		(unlocked yes)
 		(layer "F.SilkS")
 		(uuid "557df226-9428-4bc9-8d98-7bc3efe0fe08")
 		(effects

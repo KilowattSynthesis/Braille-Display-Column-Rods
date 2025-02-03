@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-01-06")
-		(rev "Rev 1")
+		(date "2025-02-03")
+		(rev "Rev 2")
 	)
 	(lib_symbols
 		(symbol "74xx:74HC595"
@@ -1369,17 +1369,15 @@
 			)
 		)
 	)
+	(junction
+		(at 212.09 151.13)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "35b0a96a-d785-4c97-8997-d45ad3f37c94")
+	)
 	(no_connect
 		(at 85.09 25.4)
 		(uuid "0b1c814b-ca7b-419c-b2d9-7dc04c848820")
-	)
-	(no_connect
-		(at 191.77 111.76)
-		(uuid "0bae6fcb-54e5-4069-807b-892cbba96473")
-	)
-	(no_connect
-		(at 191.77 109.22)
-		(uuid "14e5c8e9-059f-408c-b60b-012d0d90dc89")
 	)
 	(no_connect
 		(at 191.77 104.14)
@@ -1500,6 +1498,26 @@
 			(type default)
 		)
 		(uuid "041832b1-788d-4c65-8d08-f1d0d6892637")
+	)
+	(wire
+		(pts
+			(xy 212.09 139.7) (xy 212.09 142.24)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "04753d0d-7969-486c-a38c-ad5f8b190861")
+	)
+	(wire
+		(pts
+			(xy 212.09 149.86) (xy 212.09 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "067500d9-a590-4414-bf82-dbd1c05fc88f")
 	)
 	(wire
 		(pts
@@ -1773,6 +1791,16 @@
 	)
 	(wire
 		(pts
+			(xy 175.26 109.22) (xy 191.77 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "41e4bd22-b0b9-402c-b3a2-0a66dcee7202")
+	)
+	(wire
+		(pts
 			(xy 107.95 31.75) (xy 115.57 31.75)
 		)
 		(stroke
@@ -1780,6 +1808,16 @@
 			(type default)
 		)
 		(uuid "4322d61c-8e12-4791-8dcc-0d63ae777a87")
+	)
+	(wire
+		(pts
+			(xy 212.09 160.02) (xy 212.09 162.56)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "44c01c38-7c1f-484b-a46d-491d5b699952")
 	)
 	(wire
 		(pts
@@ -1900,6 +1938,16 @@
 			(type default)
 		)
 		(uuid "63cda1e6-d657-4b83-9abb-4e8e19d31874")
+	)
+	(wire
+		(pts
+			(xy 190.5 111.76) (xy 191.77 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "66abdb31-0e66-40bd-868e-5d7770a6120f")
 	)
 	(wire
 		(pts
@@ -2133,6 +2181,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 151.13) (xy 212.09 152.4)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8acae02f-09f0-49bc-ac3d-14630c986c14")
+	)
+	(wire
+		(pts
 			(xy 144.78 67.31) (xy 152.4 67.31)
 		)
 		(stroke
@@ -2363,6 +2421,16 @@
 	)
 	(wire
 		(pts
+			(xy 190.5 114.3) (xy 190.5 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c30b00b6-cb62-4f11-b601-8b132a40febe")
+	)
+	(wire
+		(pts
 			(xy 62.23 87.63) (xy 62.23 86.36)
 		)
 		(stroke
@@ -2423,6 +2491,16 @@
 	)
 	(wire
 		(pts
+			(xy 212.09 151.13) (xy 233.68 151.13)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d0a4dee2-c68d-428e-b429-bef602c98be0")
+	)
+	(wire
+		(pts
 			(xy 48.26 66.04) (xy 52.07 66.04)
 		)
 		(stroke
@@ -2470,6 +2548,16 @@
 			(type default)
 		)
 		(uuid "e17bf0fe-1a2e-4ce1-ab21-e39e164ca888")
+	)
+	(wire
+		(pts
+			(xy 190.5 121.92) (xy 190.5 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e1ffd9ed-061b-44c1-8462-bcaaf24201a1")
 	)
 	(wire
 		(pts
@@ -2634,7 +2722,19 @@
 		(uuid 05c3bfac-7193-49a7-9e1d-71af6a4e4410)
 	)
 	(rectangle
-		(start 180.34 38.1)
+		(start 208.28 133.35)
+		(end 234.95 168.91)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 70b57293-d0ba-42fe-b12b-9c5610e36844)
+	)
+	(rectangle
+		(start 173.99 38.1)
 		(end 246.38 132.08)
 		(stroke
 			(width 0)
@@ -2722,6 +2822,16 @@
 			(justify left bottom)
 		)
 		(uuid "141b8121-85c5-4134-ade2-b7b09a6352c9")
+	)
+	(label "ANALOG_DEMO_1"
+		(at 175.26 109.22 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2404877c-79c0-4f54-957a-5af593d28b76")
 	)
 	(label "HALL_4"
 		(at 182.88 83.82 0)
@@ -2862,6 +2972,16 @@
 			(justify left bottom)
 		)
 		(uuid "850302f3-234b-49f6-ab4b-5f62a740671a")
+	)
+	(label "ANALOG_DEMO_1"
+		(at 233.68 151.13 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right bottom)
+		)
+		(uuid "8e8a92bb-1b34-4485-9bc4-21bc0a9643a8")
 	)
 	(label "HALL_10"
 		(at 182.88 99.06 0)
@@ -3152,6 +3272,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C5947"
+			(at 62.23 68.58 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "9"
 			(uuid "118ecb6e-6ec5-43ac-83f0-8454431e8620")
 		)
@@ -3345,6 +3474,76 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 212.09 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1fcbfc59-f674-4214-8760-5fd0ec2e0711")
+		(property "Reference" "R44"
+			(at 214.63 154.9399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5k1"
+			(at 214.63 157.4799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 210.312 156.21 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 212.09 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 212.09 156.21 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "d80bbe85-9560-431e-864d-258fda6568d9")
+		)
+		(pin "1"
+			(uuid "a2dc9f6a-bef7-4d21-80db-35edbbb7b4b9")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "R44")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 29.21 49.53 0)
 		(unit 1)
@@ -3404,6 +3603,141 @@
 			(project "Braille-Column-Rods-PCB"
 				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
 					(reference "#PWR0107")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 190.5 118.11 0)
+		(mirror y)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "22bf3a1e-53d0-4c6b-ae66-4779be5091fb")
+		(property "Reference" "R45"
+			(at 187.96 116.8399 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5k1"
+			(at 187.96 119.3799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 192.278 118.11 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 190.5 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 190.5 118.11 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "409c2f0e-569e-4d9b-8583-f090207ec66b")
+		)
+		(pin "1"
+			(uuid "2d6e14f8-634b-4459-86f7-39d6ad520dc9")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "R45")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:+3V3")
+		(at 212.09 139.7 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "2fb5d46d-aa75-4a1c-a0a1-649722db688c")
+		(property "Reference" "#PWR0111"
+			(at 212.09 143.51 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "+3V3"
+			(at 212.09 135.89 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 212.09 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 212.09 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"+3V3\""
+			(at 212.09 139.7 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "60bb43c5-a3e8-456a-9135-67273bfe8ce6")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "#PWR0111")
 					(unit 1)
 				)
 			)
@@ -4000,6 +4334,141 @@
 		)
 	)
 	(symbol
+		(lib_id "Device:R")
+		(at 212.09 146.05 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "95a1058c-e7cf-41cd-8f5c-00b8541b83f1")
+		(property "Reference" "R42"
+			(at 214.63 144.7799 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "5k1"
+			(at 214.63 147.3199 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Resistor_SMD:R_0603_1608Metric_Pad0.98x0.95mm_HandSolder"
+			(at 210.312 146.05 90)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 212.09 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Resistor"
+			(at 212.09 146.05 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "1731a4f8-2705-4ae4-8692-edc396dfd2cb")
+		)
+		(pin "1"
+			(uuid "d410e4d9-3823-4a9c-bc11-af89c137dc4b")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "R42")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 190.5 124.46 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "97b95069-9031-48f6-a77b-c49ad88fab19")
+		(property "Reference" "#PWR0110"
+			(at 190.5 130.81 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 190.5 128.524 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 190.5 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 190.5 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 190.5 124.46 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "1d442fb3-3468-4b52-beac-a5d3277510e1")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "#PWR0110")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "power:GND")
 		(at 194.31 59.69 0)
 		(unit 1)
@@ -4184,6 +4653,15 @@
 				(hide yes)
 			)
 		)
+		(property "LCSC" "C5947"
+			(at 62.23 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
 		(pin "9"
 			(uuid "e7567b97-4125-452d-9c6f-c1b4b5a1cc8e")
 		)
@@ -4301,6 +4779,71 @@
 			(project "Braille-Column-Rods-PCB"
 				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
 					(reference "#PWR0103")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "power:GND")
+		(at 212.09 162.56 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d2a211a1-5c63-4c5d-a73f-14bbe429f6a8")
+		(property "Reference" "#PWR0112"
+			(at 212.09 168.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "GND"
+			(at 212.09 166.624 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 212.09 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 212.09 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
+			(at 212.09 162.56 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "1"
+			(uuid "371627c2-a73f-4255-b9f2-9a12bbb33027")
+		)
+		(instances
+			(project "Braille-Column-Rods-PCB"
+				(path "/f7fdfeea-4cd4-4338-ad68-f9089a17ed6f/1220b182-3f07-4fe8-af47-372abe179b4f"
+					(reference "#PWR0112")
 					(unit 1)
 				)
 			)

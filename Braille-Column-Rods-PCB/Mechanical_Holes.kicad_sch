@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-01-06")
-		(rev "Rev 1")
+		(date "2025-02-03")
+		(rev "Rev 2")
 	)
 	(lib_symbols
 		(symbol "Mechanical:MountingHole_Pad"

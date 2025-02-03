@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-01-06")
-		(rev "Rev 1")
+		(date "2025-02-03")
+		(rev "Rev 2")
 	)
 	(lib_symbols
 		(symbol "00-lib-symbols:MT910xET"
@@ -2313,7 +2313,7 @@
 				(justify left)
 			)
 		)
-		(property "Value" "2k1"
+		(property "Value" "5k1"
 			(at 54.61 102.8699 0)
 			(effects
 				(font
@@ -3567,7 +3567,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "MT910xET"
+		(property "Value" "MT9101ET"
 			(at 125.73 43.1799 0)
 			(effects
 				(font
@@ -3595,6 +3595,15 @@
 			)
 		)
 		(property "Description" ""
+			(at 129.54 41.91 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "LCSC" "C2977713"
 			(at 129.54 41.91 0)
 			(effects
 				(font
