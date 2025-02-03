@@ -29,6 +29,9 @@ class MainSpec:
 
     screw_d: float = 3.25
 
+    bolt_head_od: float = 5.6
+    bolt_head_height: float = 3.0
+
     def __post_init__(self) -> None:
         """Post initialization checks."""
         data = {}
@@ -37,6 +40,11 @@ class MainSpec:
     def deep_copy(self) -> "MainSpec":
         """Copy the current spec."""
         return copy.deepcopy(self)
+
+    @property
+    def total_z(self) -> float:
+        """Total height of the clamp."""
+        return self.motor_od + 2
 
 
 def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
@@ -47,7 +55,7 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
     p += bd.Box(
         spec.general_length_x,
         spec.hole_spacing_y + 8,
-        spec.motor_od + 2,
+        spec.total_z,
         align=bde.align.ANCHOR_BOTTOM,
     )
 
@@ -75,6 +83,22 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
         p -= bd.Pos(X=x_value, Y=y_value) * bd.Cylinder(
             radius=spec.screw_d / 2,
             height=40,
+            align=bde.align.ANCHOR_BOTTOM,
+        )
+
+    # Remove the bolt head for the outermost screw holes.
+    for x_value, y_value in product(
+        bde.evenly_space_with_center(spacing=spec.hole_spacing_x * 2, count=2),
+        bde.evenly_space_with_center(spacing=spec.hole_spacing_y, count=2),
+    ):
+        # Remove the bolt head.
+        p -= bd.Pos(
+            X=x_value,
+            Y=y_value,
+            Z=spec.total_z - spec.bolt_head_height,
+        ) * bd.Cylinder(
+            radius=spec.bolt_head_od / 2,
+            height=spec.bolt_head_height,
             align=bde.align.ANCHOR_BOTTOM,
         )
 
