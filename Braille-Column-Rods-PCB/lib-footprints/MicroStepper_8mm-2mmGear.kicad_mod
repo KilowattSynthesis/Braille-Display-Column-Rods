@@ -1,0 +1,169 @@
+(footprint "MicroStepper_8mm-2mmGear"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0 3.8 0)
+		(unlocked yes)
+		(layer "F.SilkS")
+		(uuid "6dafb988-45b3-4610-8ea1-e9efa841dde8")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.1)
+			)
+		)
+	)
+	(property "Value" "MicroStepper_8mm-2mmGear"
+		(at 0 7 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "43da14b9-df69-47f2-a62b-2cac5e514fe9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "b0bc04e8-e2a9-4f53-9eb8-2bd856a38cf6")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "97c60156-e695-478b-86cf-7e8cc1744d48")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "146f80d6-b1c4-46bd-aad4-807bf59dc80c")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr through_hole)
+	(fp_rect
+		(start -4 -2.75)
+		(end 3.75 2.75)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "757b4db1-47bd-40f6-a861-d27390928c0f")
+	)
+	(fp_rect
+		(start -2 -0.5)
+		(end 3 0.5)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "007e7a8e-98d5-447c-b98a-ba9dd7766f37")
+	)
+	(fp_rect
+		(start 2.2 -1.1)
+		(end 3.5 1.1)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "F.SilkS")
+		(uuid "73725e40-abe1-4cbd-a159-10ddc5429a29")
+	)
+	(fp_rect
+		(start -4.25 -3)
+		(end 4 3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill none)
+		(layer "F.CrtYd")
+		(uuid "182a4d9f-933f-411f-a4fb-8112c1afd96c")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 8.5 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(uuid "877914a4-8fa6-46b6-970c-e285853fb484")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at -3 -1.5)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "05eeaca4-4316-42a1-9feb-e6b54bc4623d")
+	)
+	(pad "2" thru_hole circle
+		(at -3 1.5)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "231bcdbf-83d2-4b9b-b5be-0c80836bb38a")
+	)
+	(pad "3" thru_hole circle
+		(at 0 -1.5)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "d324ca23-fc92-49b9-9de6-07dd31668570")
+	)
+	(pad "4" thru_hole circle
+		(at 0 1.5)
+		(size 1.524 1.524)
+		(drill 0.762)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "5f65b742-3465-4f1c-a712-2431a63fa856")
+	)
+	(model "${KIPRJMOD}/lib-cad/spool_motor_assembly.step"
+		(offset
+			(xyz 3.7 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)

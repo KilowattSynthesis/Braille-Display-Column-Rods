@@ -1,0 +1,157 @@
+(footprint "HorizMounting_4x_M2_and_M3_Middle"
+	(version 20240108)
+	(generator "pcbnew")
+	(generator_version "8.0")
+	(layer "F.Cu")
+	(descr "Mounting Hole 3.2mm, M3")
+	(tags "mounting hole 3.2mm m3")
+	(property "Reference" "REF**"
+		(at 0 11 0)
+		(layer "F.SilkS")
+		(hide yes)
+		(uuid "c411becc-e7da-4ffe-b984-354a8360a757")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "HorizMounting_4x_M2_and_M3_Middle"
+		(at 0 7.7 0)
+		(layer "F.Fab")
+		(uuid "e425360f-bf67-43b0-929e-a24c0e3b7add")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Footprint" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0cd48296-c1c4-4126-981b-0a317bda6395")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "0d01aa50-3070-40d0-86c1-12669ae97343")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" ""
+		(at 0 6 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "e29813f0-a063-4d5d-b5a8-e5fd070e88a1")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(attr exclude_from_pos_files exclude_from_bom)
+	(fp_line
+		(start -4.5 0)
+		(end 4.5 0)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "17e2e77a-ea94-4a0e-8e7b-2157edbc1b48")
+	)
+	(fp_rect
+		(start -4.5 -1.5)
+		(end 4.5 1.5)
+		(stroke
+			(width 0.1)
+			(type default)
+		)
+		(fill none)
+		(layer "F.SilkS")
+		(uuid "4d39c2bf-6e03-42b8-9f6c-eba9e227aacd")
+	)
+	(fp_rect
+		(start -5 -6.5)
+		(end 5 6.5)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill none)
+		(layer "F.CrtYd")
+		(uuid "48d0e686-17c0-4aea-b87d-43c43933c9f3")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 9.5 0)
+		(layer "F.Fab")
+		(uuid "cd9168f1-709f-4322-85d6-abd4de5735bf")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(pad "1" thru_hole circle
+		(at -2.5 -4)
+		(size 4.4 4.4)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "ade1fe78-a7f9-404b-81cf-82cf4bfa32a0")
+	)
+	(pad "1" thru_hole circle
+		(at -2.5 4)
+		(size 4.4 4.4)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "d79f372a-8c84-4ae0-8b23-ddb55d628e56")
+	)
+	(pad "1" thru_hole circle
+		(at 2.5 -4)
+		(size 4.4 4.4)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "8017acf2-b212-40c8-aacb-b5aa58e67104")
+	)
+	(pad "1" thru_hole circle
+		(at 2.5 4)
+		(size 4.4 4.4)
+		(drill 2.2)
+		(layers "*.Cu" "*.Mask")
+		(remove_unused_layers no)
+		(uuid "71d2c3c9-f457-44e7-9c85-4d1d439cc7d1")
+	)
+	(model "${KIPRJMOD}/lib-cad/horizontal_bar_holder.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+)
