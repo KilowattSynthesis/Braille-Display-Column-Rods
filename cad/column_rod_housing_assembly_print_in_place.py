@@ -156,13 +156,13 @@ class HousingSpec:
     cell_pitch_y: float = 10
 
     # Diameter of dot holes on the top.
-    dot_hole_id: float = 1.7
+    dot_hole_id: float = 1.3
 
     rod_pitch_x: float = 2.5  # Very closely related to the cell pitch.
-    dist_rod_max_od_to_top_face: float = 1.5
+    dist_rod_max_od_to_top_face: float = 0.5
 
     # JLC: Wall thickness>1.2mm, thinnest part≥0.8mm, hole size≥1.5mm.
-    top_face_thickness: float = 1.2
+    top_face_thickness: float = 3.0  # Rather thick to hold dots vertical.
     left_right_wall_thickness: float = 1.2
     front_back_wall_thickness: float = 2.5
 
@@ -180,10 +180,10 @@ class HousingSpec:
     gear_tooth_count: int = 12
     gear_pressure_angle: float = 14.5  # Controls tooth length.
 
-    motor_shaft_hole_id_outer: float = 0.8
-    motor_shaft_hole_id_inner: float = 0.6
+    motor_shaft_hole_id_outer: float = 0.7
+    motor_shaft_hole_id_inner: float = 0.45
     motor_shaft_hole_depth: float = 2  # 1.4mm nominally.
-    motor_shaft_grip_length: float = 3.2  # Fits magnet within.
+    motor_shaft_grip_length: float = 3.5  # Fits magnet within.
     motor_shaft_grip_od: float = 3.2
 
     zeroing_magnet_od: float = 2.0
