@@ -47,7 +47,7 @@
 		(pad_to_mask_clearance 0)
 		(allow_soldermask_bridges_in_footprints no)
 		(pcbplotparams
-			(layerselection 0x00010fc_ffffffff)
+			(layerselection 0x00013fc_ffffffff)
 			(plot_on_all_layers_selection 0x0000000_00000000)
 			(disableapertmacros no)
 			(usegerberextensions no)
@@ -77,11 +77,11 @@
 			(plotinvisibletext no)
 			(sketchpadsonfab no)
 			(subtractmaskfromsilk no)
-			(outputformat 1)
+			(outputformat 4)
 			(mirror no)
-			(drillshape 1)
+			(drillshape 0)
 			(scaleselection 1)
-			(outputdirectory "")
+			(outputdirectory "production/")
 		)
 	)
 	(net 0 "")
@@ -25776,7 +25776,7 @@
 		(descr "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL-2 footprint")
 		(tags "SW-SMD_4P-L5.1-W5.1-P3.70-LS6.5-TL-2 footprint C318884")
 		(property "Reference" "SW1"
-			(at -5 0 360)
+			(at -5 0 0)
 			(layer "F.SilkS")
 			(uuid "8f1a0e55-c1ad-4b4d-b300-6aa770228f1d")
 			(effects
@@ -34048,7 +34048,7 @@
 		(descr "Through hole straight pin header, 1x02, 2.54mm pitch, single row")
 		(tags "Through hole pin header THT 1x02 2.54mm single row")
 		(property "Reference" "J7"
-			(at 0 -2.33 360)
+			(at 0 -2.33 0)
 			(layer "F.SilkS")
 			(uuid "bbdb3c4b-42a9-4279-b1a0-e6d192891983")
 			(effects
@@ -34059,7 +34059,7 @@
 			)
 		)
 		(property "Value" "Conn_01x02"
-			(at 0 4.87 360)
+			(at 0 4.87 0)
 			(layer "F.Fab")
 			(uuid "c8a328ca-ecb4-4cb1-b64a-d921865f8cb3")
 			(effects
@@ -41370,6 +41370,28 @@
 		(uuid "d14fb5a5-81fa-4c55-93ec-0faa920f16a4")
 	)
 	(gr_rect
+		(start 17.8 14.4)
+		(end 170.2 24.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "Cmts.User")
+		(uuid "098edb7e-d6bc-4e49-9fa6-4623d87acea7")
+	)
+	(gr_rect
+		(start 18.4 30)
+		(end 28.4 182.4)
+		(stroke
+			(width 0.1)
+			(type solid)
+		)
+		(fill solid)
+		(layer "Cmts.User")
+		(uuid "4a377b19-50b8-4ec9-88ac-3e472c54c11e")
+	)
+	(gr_rect
 		(start 84 75.5)
 		(end 179 174.5)
 		(stroke
@@ -41479,6 +41501,18 @@
 			(font
 				(size 1 1)
 				(thickness 0.15)
+			)
+			(justify left bottom)
+		)
+	)
+	(gr_text "Scale: Border segments are 50mm. Boxes are 6 inches (152.4mm) by 10mm."
+		(at 33.2 32.2 0)
+		(layer "Cmts.User")
+		(uuid "275b975b-be55-4a3c-a740-c50cd2fd1fd5")
+		(effects
+			(font
+				(size 1.5 1.5)
+				(thickness 0.1875)
 			)
 			(justify left bottom)
 		)
