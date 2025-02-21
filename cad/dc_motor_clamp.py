@@ -28,10 +28,11 @@ class MainSpec:
 
     general_length_x: float = 20
 
-    screw_d: float = 3.25
+    corner_screw_d: float = 2.8
+    center_screw_d: float = 3.25
 
     bolt_head_od: float = 5.6
-    bolt_head_height: float = 3.0
+    bolt_head_height: float = 0.01  # Disabled, basically.
 
     def __post_init__(self) -> None:
         """Post initialization checks."""
@@ -89,13 +90,11 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
 
     # Remove the screw holes.
     for x_value, y_value in product(
-        bde.evenly_space_with_center(
-            spacing=spec.hole_spacing_x, count=spec.hole_count_x
-        ),
+        [0],
         bde.evenly_space_with_center(spacing=spec.hole_spacing_y, count=2),
     ):
         p -= bd.Pos(X=x_value, Y=y_value) * bd.Cylinder(
-            radius=spec.screw_d / 2,
+            radius=spec.center_screw_d / 2,
             height=40,
             align=bde.align.ANCHOR_BOTTOM,
         )
@@ -105,6 +104,13 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
         bde.evenly_space_with_center(spacing=spec.hole_spacing_x * 2, count=2),
         bde.evenly_space_with_center(spacing=spec.hole_spacing_y, count=2),
     ):
+        # Remove the screw holes.
+        p -= bd.Pos(X=x_value, Y=y_value) * bd.Cylinder(
+            radius=spec.corner_screw_d / 2,
+            height=40,
+            align=bde.align.ANCHOR_BOTTOM,
+        )
+
         # Remove the bolt head.
         p -= bd.Pos(
             X=x_value,
