@@ -49,15 +49,16 @@ def init_shift_register() -> None:
 
 
 def set_shift_registers(data: list[bool]) -> None:
-    """
-    Set the state of all shift registers based on input data.
+    """Set the state of all shift registers based on input data.
 
     Args:
         data: list of 16 boolean values representing desired output states
              (6 registers x 8 bits per register)
+
     """
     if len(data) != 16:
-        raise ValueError("Data must contain exactly 16 boolean values")
+        msg = "Data must contain exactly 16 boolean values"
+        raise ValueError(msg)
 
     # Shift out all 16 bits
     for bit in reversed(data):  # Shift MSB first
@@ -77,25 +78,30 @@ def set_shift_registers(data: list[bool]) -> None:
     PIN_SHIFT_RCLK.value(0)
     time.sleep_us(SHIFT_REGISTER_SLEEP_US)
 
-def demo_each_corner_motor() -> None:
-    """Spin each corner motor 1 sec in each direction."""
 
-    DURATION_EACH_DIRECTION_MS = 200
+def demo_each_corner_motor(duration_each_direction_ms: int = 200) -> None:
+    """Spin each corner motor 1 sec in each direction.
+    
+    Order: NW (0), NE (1), SW (2), SE (3).
+    """
 
     for motor_num in range(4):
+        print(f"Spinning motor #{motor_num} - DIR 1")
         # Set the motor to spin in one direction.
         reg = [False] * 16
         reg[8 + motor_num * 2 + 0] = True
         reg[8 + motor_num * 2 + 1] = False
         set_shift_registers(reg)
-        time.sleep_ms(DURATION_EACH_DIRECTION_MS)
+        time.sleep_ms(duration_each_direction_ms)
 
+        print(f"Spinning motor #{motor_num} - DIR 2")
         # Set the motor to spin in the other direction.
         reg = [False] * 16
         reg[8 + motor_num * 2 + 0] = False
         reg[8 + motor_num * 2 + 1] = True
         set_shift_registers(reg)
-        time.sleep_ms(DURATION_EACH_DIRECTION_MS)
+        time.sleep_ms(duration_each_direction_ms)
+
 
 def init_hall_sensor() -> None:
     """Initialize the hall sensor pins to default states (select channel 15)."""
@@ -113,7 +119,7 @@ def read_hall_sensor_u16(sensor_num: int) -> int:
     PIN_HALL_SELECT_2.value(sensor_num & 0b0100)
     PIN_HALL_SELECT_3.value(sensor_num & 0b1000)
 
-    time.sleep_ms(10) # Wait for the sensor to settle.
+    time.sleep_ms(10)  # Wait for the sensor to settle.
 
     # Read the hall sensor.
     val = HALL_ADC.read_u16()
@@ -123,11 +129,50 @@ def read_hall_sensor_u16(sensor_num: int) -> int:
 
     return val
 
+
+def hall_sensor_self_check() -> None:
+    """Check that the hall sensors are working.
+
+    Expects that Input 14 is connected to a 50% voltage divider,
+    and that Input 15 is pulled down to GND.
+    """
+    val_14 = read_hall_sensor_u16(14)
+    print(f"Hall sensor 14: {val_14:,}")
+    if (val_14 < (1 << 16) * 0.48) or (val_14 > (1 << 16) * 0.52):
+        print("❌ Hall sensor 14 self-check failed.")
+    else:
+        print("✅ Hall sensor 14 self-check passed.")
+
+    val_15 = read_hall_sensor_u16(15)
+    print(f"Hall sensor 15: {val_15:,}")
+    if val_15 > (1 << 15) * 0.1:
+        print("❌ Hall sensor 15 self-check failed.")
+    else:
+        print("✅ Hall sensor 15 self-check passed.")
+
+    # Reset the mux to default state.
+    init_hall_sensor()
+
+
 def demo_read_each_hall_sensor() -> None:
     """Read each hall sensor and print the value."""
     for i in range(16):
         val = read_hall_sensor_u16(i)
         print(f"Hall sensor {i}: {val:,}")
+
+def demo_gp_leds() -> None:
+    """Demo the general purpose LEDs."""
+    for i in range(2):
+        PIN_GP_LED_0.value(0)
+        PIN_GP_LED_1.value(1)
+        time.sleep_ms(100)
+        PIN_GP_LED_0.value(1)
+        PIN_GP_LED_1.value(0)
+        time.sleep_ms(100)
+    
+    PIN_GP_LED_0.value(0)
+    PIN_GP_LED_1.value(0)
+
 
 def demo_zeroing_corner_motor() -> None:
     """Try zeroing the top-left (U10 [corner 0] + U25 [hall 8]) corner motor."""
@@ -163,13 +208,17 @@ def main() -> None:
     init_hall_sensor()
     print("Init complete.")
 
-    print("Starting demo_zeroing_corner_motor()")
-    demo_zeroing_corner_motor()
-    print("Done demo_zeroing_corner_motor()")
+    demo_gp_leds()
+
+    hall_sensor_self_check()
+
+    # print("Starting demo_zeroing_corner_motor()")
+    # demo_zeroing_corner_motor()
+    # print("Done demo_zeroing_corner_motor()")
 
     while 1:
         print("Starting demo_each_corner_motor()")
-        demo_each_corner_motor()
+        demo_each_corner_motor(duration_each_direction_ms=1000)
         print("Done demo_each_corner_motor()")
 
         print("Starting demo_read_each_hall_sensor()")
