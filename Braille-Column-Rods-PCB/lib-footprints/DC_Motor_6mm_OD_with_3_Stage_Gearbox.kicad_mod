@@ -498,8 +498,21 @@
 		)
 	)
 	(model "${KIPRJMOD}/lib-cad/bushing_block.step"
+		(opacity 0.7000)
 		(offset
 			(xyz 4.4 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
+	(model "${KIPRJMOD}/lib-cad/dc_motor_clamp.step"
+		(opacity 0.7100)
+		(offset
+			(xyz -9.8 0 0)
 		)
 		(scale
 			(xyz 1 1 1)
