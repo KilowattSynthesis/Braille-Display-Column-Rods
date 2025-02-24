@@ -72,7 +72,7 @@ class GenericRodProperties:
 
 def make_generic_rod_example(
     max_od: float, min_od: float, length: float
-) -> tuple[bd.Part, GenericRodProperties]:
+) -> tuple[bd.Part | bd.Compound, GenericRodProperties]:
     """Make a generic rod part for the assembly."""
     p = bd.Part(None)
 
@@ -130,7 +130,7 @@ def make_generic_rod_example(
 class HousingSpec:
     """Specification for braille cell housing."""
 
-    rod_part: bd.Part
+    rod_part: bd.Part | bd.Compound
     rod_props: GenericRodProperties
 
     # Important settings.
@@ -285,7 +285,7 @@ class HousingSpec:
 def make_complete_rod(
     spec: HousingSpec,
     draw_gear_mode: Literal["top", "bottom", "both"] | None = "top",
-) -> bd.Part:
+) -> bd.Part | bd.Compound:
     """Make the complete rod, with the holder plates and extra length.
 
     Output remains in the Z axis.
@@ -438,7 +438,7 @@ def make_housing(
     *,
     enable_add_rods: bool = False,
     # enable_print_in_place: bool = False,
-) -> bd.Part:
+) -> bd.Part | bd.Compound:
     """Make the housing that the screw fits into.
 
     Args:
@@ -447,7 +447,7 @@ def make_housing(
         enable_print_in_place: Whether to print the screws in place.
 
     """
-    p = bd.Part(None)
+    p = bd.Compound(None)
 
     # Create the main outer shell.
     p += bd.Box(
@@ -576,16 +576,22 @@ def make_housing(
                 if rod_num % 2 == 0
                 else final_rod_part_bottom_gear
             )
-            p += bd.Pos(X=rod_x, Z=spec.rod_center_z_from_bottom) * rod_part.rotate(
-                axis=bd.Axis.X,
-                # -90 puts the top-side of the rod at the back.
-                angle=-90,
-            )
+            p += [
+                bd.Pos(X=rod_x, Z=spec.rod_center_z_from_bottom)
+                * rod_part.rotate(
+                    axis=bd.Axis.X,
+                    # -90 puts the top-side of the rod at the back.
+                    angle=-90,
+                )
+            ]
+
+    if isinstance(p, list):
+        p = bd.Compound(p)
 
     return p
 
 
-def make_octagon_cam_housing_in_place() -> bd.Part:
+def make_octagon_cam_housing_in_place() -> bd.Part | bd.Compound:
     """Make the octagon cam housing in place."""
     # TODO(KilowattSynthesis): Could add arg - housing_spec_overrides: dict[str, Any]
     cam_spec = dot_column_cam_rod_octagon.MainSpec()

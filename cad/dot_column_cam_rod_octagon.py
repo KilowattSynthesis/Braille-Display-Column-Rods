@@ -78,7 +78,7 @@ class MainSpec:
         )
 
 
-def make_cam_rod(spec: MainSpec) -> bd.Part:
+def make_cam_rod(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make a single cam rod, pointing in Z axis."""
     p = bd.Part(None)
 
@@ -169,7 +169,7 @@ def make_cam_rod(spec: MainSpec) -> bd.Part:
     return p
 
 
-def make_assembly_cam_rod(spec: MainSpec) -> bd.Part:
+def make_assembly_cam_rod(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make an assembly of cam rod with magnet."""
     p = bd.Part(None)
 

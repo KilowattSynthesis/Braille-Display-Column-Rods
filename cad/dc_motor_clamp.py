@@ -69,7 +69,7 @@ class MainSpec:
         return self.motor_od + self.top_wall_t
 
 
-def make_dc_motor_clamp(spec: MainSpec) -> bd.Part:
+def make_dc_motor_clamp(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make the clamp for the tiny DC motor.
 
     Wires go out the left side.
