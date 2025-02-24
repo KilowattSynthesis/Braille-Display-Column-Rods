@@ -8,9 +8,6 @@
     * The rod will be rotated such that max-Z is at the back (max-Y).
 """
 
-# FIXME: Add pegs on the other M2 holes for easier assembly into the PCB.
-# FIXME: Make the housing top face thicker to horizontally-constrain the pins.
-
 import copy
 import json
 import sys
@@ -80,8 +77,9 @@ class HousingSpec:
     rod_props: GenericRodProperties
 
     # Important settings.
-    # FIXME: Need to update this.
-    rod_center_z_from_bottom: float = 3.05  # 4.7mm motor OD/2 + 0.7mm motor leg length
+    # Theory: 4.7mm motor OD/2 + 0.7mm motor leg length
+    # Measured: About 3.15 to 3.2mm.
+    rod_center_z_from_bottom: float = 3.15
 
     # Amount of slop in the radial direction. Radial clearance is half of this.
     rod_slop_diameter: float = 0.32
@@ -95,6 +93,8 @@ class HousingSpec:
     # Sticks through the wall on the non-motor side.
     rod_od_through_wall_pivot_side: float = 1.3
     rod_length_into_wall_pivot_side: float = 1.5  # Less than WT.
+
+    rod_length_past_outside_wall_to_motor_coupler: float = 0.4
 
     # ##### Resume less-important settings (common mostly common across designs).
 
@@ -110,19 +110,19 @@ class HousingSpec:
     dist_rod_max_od_to_top_face: float = 1.5
 
     # JLC: Wall thickness>1.2mm, thinnest part≥0.8mm, hole size≥1.5mm.
-    top_face_thickness: float = 1.2
+    top_face_thickness: float = 3
     left_right_wall_thickness: float = 1.2
     front_back_wall_thickness: float = 2.0
 
     # Distance from outer dots to mounting holes. PCB property.
     x_dist_dots_to_mounting_holes: float = 5.0
     mounting_hole_spacing_y: float = 3
-    mounting_hole_diameter: float = 2  # Thread-forming screws from bottom.
+    mounting_hole_id: float = 1.85  # Thread-forming screws from bottom.
+    mounting_hole_peg_od: float = 2
+    mounting_hole_peg_length: float = 1.5
     margin_around_mounting_holes: float = 5.0  # Sets box size. Radius.
 
     cell_count_x: int = 4
-
-    rod_length_past_outside_wall_to_gear_or_shaft: float = 0.5
 
     motor_shaft_hole_id_outer: float = 0.65
     motor_shaft_hole_id_inner: float = 0.4
@@ -138,14 +138,14 @@ class HousingSpec:
         magnet_coord_y = (
             self.total_y / 2
             + self.rod_slop_axial / 2
-            + self.rod_length_past_outside_wall_to_gear_or_shaft
+            + self.rod_length_past_outside_wall_to_motor_coupler
             + self.motor_shaft_grip_length / 2
         )
 
         motor_shaft_gripper_max_y = (
             self.total_y / 2
             + self.rod_slop_axial / 2
-            + self.rod_length_past_outside_wall_to_gear_or_shaft
+            + self.rod_length_past_outside_wall_to_motor_coupler
             + self.motor_shaft_grip_length
         )
 
@@ -289,23 +289,27 @@ def make_octagon_rod(
     # +Z - Past outside_wall, toward the motor interface.
     p += bd.Cylinder(
         radius=spec.rod_extension_od / 2,
-        height=spec.rod_length_past_outside_wall_to_gear_or_shaft,
+        height=spec.rod_length_past_outside_wall_to_motor_coupler,
         align=bde.align.ANCHOR_BOTTOM,
     ).translate((0, 0, p.bounding_box().max.Z))
 
-    # Add the motor shaft gripper and hole.
+    # Add the motor shaft coupler and hole.
     p += bd.Cylinder(
         radius=spec.motor_shaft_grip_od / 2,
         height=spec.motor_shaft_grip_length,
         align=bde.align.ANCHOR_BOTTOM,
     ).translate((0, 0, p.bounding_box().max.Z))
 
-    # Remove the motor shaft hole from the motor gripper.
-    p -= bd.Cone(  # TODO: Should be a d-shaft.
-        top_radius=spec.motor_shaft_hole_id_outer / 2,
-        bottom_radius=spec.motor_shaft_hole_id_inner / 2,
-        height=spec.motor_shaft_hole_depth,
-        align=bde.align.ANCHOR_TOP,
+    # Remove the motor shaft hole from the motor coupler.
+    p -= (
+        bd.Cone(
+            top_radius=spec.motor_shaft_hole_id_outer / 2,
+            bottom_radius=spec.motor_shaft_hole_id_inner / 2,
+            height=spec.motor_shaft_hole_depth,
+            align=bde.align.ANCHOR_TOP,
+        )
+        # Make it a D-shaft.
+        & bd.Box(5, 5, 5, align=bde.align.ANCHOR_LEFT).translate((-0.15, 0, 0))
     ).translate((0, 0, p.bounding_box().max.Z))
 
     # Remove a hole for the the zeroing magnet on each rod.
@@ -357,21 +361,31 @@ def make_housing(spec: HousingSpec) -> bd.Part | bd.Compound:
         align=bde.align.ANCHOR_BOTTOM,
     )
 
-    # Remove the mounting holes.
+    # Remove the mounting holes (center holes).
+    for x_val in bde.evenly_space_with_center(
+        count=2,
+        spacing=spec.mounting_hole_spacing_x,
+    ):
+        p -= bd.Pos(X=x_val) * bd.Cylinder(
+            radius=spec.mounting_hole_id / 2,
+            height=spec.total_z,
+            align=bde.align.ANCHOR_BOTTOM,
+        )
+    # Add the mounting pegs (corner holes).
     for x_val, y_val in product(
         bde.evenly_space_with_center(
             count=2,
             spacing=spec.mounting_hole_spacing_x,
         ),
         bde.evenly_space_with_center(
-            count=3,
-            spacing=spec.mounting_hole_spacing_y,
+            count=2,
+            spacing=spec.mounting_hole_spacing_y * 2,
         ),
     ):
-        p -= bd.Pos(x_val, y_val) * bd.Cylinder(
-            radius=spec.mounting_hole_diameter / 2,
-            height=spec.total_z,
-            align=bde.align.ANCHOR_BOTTOM,
+        p += bd.Pos(x_val, y_val) * bd.Cylinder(
+            radius=spec.mounting_hole_peg_od / 2,
+            height=spec.mounting_hole_peg_length,
+            align=bde.align.ANCHOR_TOP,
         )
 
     # Remove the braille dot holes.
@@ -583,7 +597,12 @@ def preview_all() -> bd.Part | bd.Compound:
         (0, 25, 0)
     )
 
-    return housing_part + rod_part + housing_and_rod_assembly
+    p = housing_part + rod_part + housing_and_rod_assembly
+
+    if isinstance(p, list):
+        p = bd.Compound(p)
+
+    return p
 
 
 if __name__ == "__main__":
