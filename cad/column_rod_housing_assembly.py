@@ -605,15 +605,75 @@ def preview_all() -> bd.Part | bd.Compound:
     return p
 
 
+def printable_cam_rods() -> bd.Part | bd.Compound:
+    """Make a row of cam rods, for ordering."""
+    rod_part = make_final_octagon_cam_rod()
+
+    pitch_x = 12
+    part_count = 5
+    rail_parallel_length = 25
+
+    _shift_z = 3
+
+    p = bd.Part(None)
+    for i in range(part_count):
+        # Add the part itself.
+        p += rod_part.translate((i * pitch_x, 0, -_shift_z))
+
+    # Add rigid bodies parallel to the rods.
+    for i in range(-1, part_count):
+        p += bd.Cylinder(
+            radius=3.5 / 2,
+            height=rail_parallel_length,
+        ).translate((i * pitch_x + pitch_x / 2, 0))
+
+    # Join the rigid bodies.
+    for side in [1, -1]:
+        p += (
+            bd.Cylinder(
+                radius=4 / 2,
+                height=pitch_x * (part_count + 1),
+                align=bde.align.ANCHOR_BOTTOM,
+            )
+            .rotate(bd.Axis.Y, angle=90)
+            .translate((-pitch_x, 0, side * rail_parallel_length / 2))
+        )
+
+    # On the motor side, connect sideways.
+    p += (
+        bd.Cylinder(
+            radius=1.5 / 2,
+            height=pitch_x * (part_count),
+            align=bde.align.ANCHOR_BOTTOM,
+        )
+        .rotate(bd.Axis.Y, angle=90)
+        .translate((-pitch_x / 2, 0, 7.75 - _shift_z))
+    )
+
+    # Add a connecting rod to the bottom.
+    for i in range(part_count):
+        p += bd.Cylinder(
+            radius=1.5 / 2,
+            height=5,
+            align=bde.align.ANCHOR_TOP,
+        ).translate((i * pitch_x, 0, rod_part.bounding_box().min.Z - _shift_z))
+
+    return p
+
+
 if __name__ == "__main__":
     start_time = datetime.now(UTC)
     py_file_name = Path(__file__).name
     logger.info(f"Running {py_file_name}")
 
     parts = {
+        "printable_cam_rods": show(printable_cam_rods()),
         "octagon_cam_rod": (make_final_octagon_cam_rod()),
         "octagon_cam_housing": (make_octagon_cam_housing_no_rods()),
-        "preview_all": show(preview_all()),
+        "octagon_cam_housing_assembly_preview": (
+            make_octagon_cam_housing_assembly_preview()
+        ),
+        "preview_all": (preview_all()),
     }
 
     logger.info("Saving CAD model(s)...")
