@@ -8,9 +8,7 @@
     * The rod will be rotated such that max-Z is at the back (max-Y).
 """
 
-# FIXME: First thing - modify lengths of the ends of the rods so that it doesn't stick out all the way
-# FIXME: First thing - make it so the holes aren't through-holes on the housing.
-# FIXME: Add pegs on the other M2 holes for easier assembly.
+# FIXME: Add pegs on the other M2 holes for easier assembly into the PCB.
 # FIXME: Make the housing top face thicker to horizontally-constrain the pins.
 
 import copy
@@ -25,7 +23,6 @@ from typing import Literal
 import build123d as bd
 import build123d_ease as bde
 import git
-from bd_warehouse.gear import SpurGear
 from build123d_ease import show
 from loguru import logger
 
@@ -79,10 +76,11 @@ class GenericRodProperties:
 class HousingSpec:
     """Specification for braille cell housing."""
 
-    rod_part: bd.Part
+    rod_part: bd.Part | bd.Compound
     rod_props: GenericRodProperties
 
     # Important settings.
+    # FIXME: Need to update this.
     rod_center_z_from_bottom: float = 3.05  # 4.7mm motor OD/2 + 0.7mm motor leg length
 
     # Amount of slop in the radial direction. Radial clearance is half of this.
@@ -91,13 +89,12 @@ class HousingSpec:
     # Amount of slop in axial direction. Clearance is half of this.
     rod_slop_axial: float = 0.6
 
-    # Distance along the rod which is at the rod_interface_min_od.
-    rod_interface_min_od_length: float = 1.2
-    rod_interface_min_od: float = 2.2
-    # Rod extension from the loaded rod to the outer wall.
+    # Rod extension from the fancy rod edge to the outer wall.
     rod_extension_od: float = 2.2
 
-    rod_dist_into_wall: float = 1.0  # Distance into the wall.
+    # Sticks through the wall on the non-motor side.
+    rod_od_through_wall_pivot_side: float = 1.3
+    rod_length_into_wall_pivot_side: float = 1.5  # Less than WT.
 
     # ##### Resume less-important settings (common mostly common across designs).
 
@@ -115,7 +112,7 @@ class HousingSpec:
     # JLC: Wall thickness>1.2mm, thinnest part≥0.8mm, hole size≥1.5mm.
     top_face_thickness: float = 1.2
     left_right_wall_thickness: float = 1.2
-    front_back_wall_thickness: float = 2.5
+    front_back_wall_thickness: float = 2.0
 
     # Distance from outer dots to mounting holes. PCB property.
     x_dist_dots_to_mounting_holes: float = 5.0
@@ -126,10 +123,6 @@ class HousingSpec:
     cell_count_x: int = 4
 
     rod_length_past_outside_wall_to_gear_or_shaft: float = 0.5
-    gear_module_number: float = 0.2
-    gear_length: float = 0  # Disabled.
-    gear_tooth_count: int = 12
-    gear_pressure_angle: float = 14.5  # Controls tooth length.
 
     motor_shaft_hole_id_outer: float = 0.65
     motor_shaft_hole_id_inner: float = 0.4
@@ -185,6 +178,11 @@ class HousingSpec:
         )
 
     @property
+    def inner_cavity_size_y(self) -> float:
+        """Size of the inner cavity in the Y direction."""
+        return self.total_y - 2 * self.front_back_wall_thickness
+
+    @property
     def total_x(self) -> float:
         """Total X width of the housing."""
         return (
@@ -202,6 +200,7 @@ class HousingSpec:
             self.front_back_wall_thickness * 2
             + self.rod_props.length
             + self.rod_slop_axial
+            + 1  # Just a tad extra.
         )
 
     @property
@@ -233,8 +232,8 @@ class HousingSpec:
 
 def make_octagon_rod(
     spec: HousingSpec,
-    draw_gear_mode: Literal["top", "bottom", "both"] | None = "top",
-) -> bd.Part:
+    motor_side: Literal["+Z", "-Z"] = "+Z",
+) -> bd.Part | bd.Compound:
     """Make the complete rod, with the holder plates and extra length.
 
     Output remains in the Z axis.
@@ -254,135 +253,84 @@ def make_octagon_rod(
         * spec.rod_part
     )
 
+    if motor_side == "-Z":
+        # Rotate the cam rod 180, then rotate back at the end.
+        p = p.rotate(bd.Axis.Y, angle=180)
+
     # Add on the rod extensions.
     # TODO(KilowattSynthesis): Could use Cone to grow it out to the inner holder plate.
 
-    # Make a list of the rod segments (diameter, z-val).
-    rod_segments_list: list[tuple[float, float, Literal["length", "z"]]] = [
-        # Extension from rod to rod_interface_min_od part, minus the slop.
-        (
-            spec.rod_extension_od,
-            spec.total_y / 2
-            - spec.front_back_wall_thickness / 2
-            - spec.rod_interface_min_od_length / 2
-            - spec.rod_slop_axial / 2,
-            "z",
+    # -Y = -Z, extension from rod to wall, minus the slop.
+    p += bd.Cylinder(
+        radius=spec.rod_extension_od / 2,
+        height=(
+            spec.inner_cavity_size_y / 2
+            - spec.rod_slop_axial
+            - spec.rod_props.length / 2
         ),
-        # Rod_interface_min_od part.
-        (
-            spec.rod_interface_min_od,
-            spec.rod_interface_min_od_length + spec.rod_slop_axial,
-            "length",
-        ),
-        # Extension from rod to outer wall, plus the slop.
-        (
-            spec.rod_extension_od,
-            spec.total_y / 2 + spec.rod_slop_axial / 2,
-            "z",
-        ),
-    ]
-    for final_rot_value in (0, 180):
-        # Draw everything as though it's for the top (+Z).
-        cur_bottom_z = spec.rod_props.length / 2
-        for rod_segment in rod_segments_list:
-            if rod_segment[2] == "z":
-                segment_length = rod_segment[1] - cur_bottom_z
-                assert segment_length > 0
-            elif rod_segment[2] == "length":
-                segment_length = rod_segment[1]
+        align=bde.align.ANCHOR_TOP,
+    ).translate((0, 0, -spec.rod_props.length / 2))
 
-            p += (
-                bd.Pos(Z=cur_bottom_z)
-                * bd.Cylinder(
-                    radius=rod_segment[0] / 2,
-                    height=segment_length,
-                    align=bde.align.ANCHOR_BOTTOM,
-                )
-            ).rotate(axis=bd.Axis.Y, angle=final_rot_value)
+    # -Y = -Z, extension into and beyond the wall.
+    p += bd.Cylinder(
+        radius=spec.rod_od_through_wall_pivot_side / 2,
+        height=spec.rod_length_into_wall_pivot_side,
+        align=bde.align.ANCHOR_TOP,
+    ).translate((0, 0, p.bounding_box().min.Z))
 
-            cur_bottom_z += segment_length
+    # +Y = +Z, extension into the wall and beyond, toward motor.
+    p += bd.Cylinder(
+        radius=spec.rod_extension_od / 2,
+        height=(spec.total_y / 2 - spec.rod_props.length / 2),
+        align=bde.align.ANCHOR_BOTTOM,
+    ).translate((0, 0, spec.rod_props.length / 2))
 
-    # Add on the driving gears.
-    rot_vals = {
-        "top": (0,),
-        "bottom": (180,),
-        "both": (0, 180),
-        None: (),
-    }[draw_gear_mode]
-    for final_rot_value in rot_vals:
-        # Past outside_wall, toward the gear.
-        p += (
-            bd.Pos(Z=cur_bottom_z)
-            * bd.Cylinder(
-                radius=spec.rod_extension_od / 2,
-                height=spec.rod_length_past_outside_wall_to_gear_or_shaft,
-                align=bde.align.ANCHOR_BOTTOM,
-            )
-        ).rotate(axis=bd.Axis.Y, angle=final_rot_value)
+    # Add on the driving motor interface.
+    # +Z - Past outside_wall, toward the motor interface.
+    p += bd.Cylinder(
+        radius=spec.rod_extension_od / 2,
+        height=spec.rod_length_past_outside_wall_to_gear_or_shaft,
+        align=bde.align.ANCHOR_BOTTOM,
+    ).translate((0, 0, p.bounding_box().max.Z))
 
-        # Add the gear.
-        if spec.gear_length > 0:
-            p += (
-                bd.Pos(
-                    Z=cur_bottom_z + spec.rod_length_past_outside_wall_to_gear_or_shaft
-                )
-                * SpurGear(
-                    module=spec.gear_module_number,
-                    tooth_count=spec.gear_tooth_count,
-                    thickness=spec.gear_length,
-                    pressure_angle=spec.gear_pressure_angle,
-                    root_fillet=0.001,  # Rounding at base of each tooth.
-                    align=bde.align.ANCHOR_BOTTOM,
-                )
-            ).rotate(axis=bd.Axis.Y, angle=final_rot_value)
+    # Add the motor shaft gripper and hole.
+    p += bd.Cylinder(
+        radius=spec.motor_shaft_grip_od / 2,
+        height=spec.motor_shaft_grip_length,
+        align=bde.align.ANCHOR_BOTTOM,
+    ).translate((0, 0, p.bounding_box().max.Z))
 
-        # Add the motor shaft gripper and hole.
-        p += (
-            bd.Pos(Z=cur_bottom_z + spec.rod_length_past_outside_wall_to_gear_or_shaft)
-            * bd.Cylinder(
-                radius=spec.motor_shaft_grip_od / 2,
-                height=spec.motor_shaft_grip_length,
-                align=bde.align.ANCHOR_BOTTOM,
-            )
-        ).rotate(axis=bd.Axis.Y, angle=final_rot_value)
-        p -= (
-            bd.Pos(
-                Z=cur_bottom_z
-                + spec.rod_length_past_outside_wall_to_gear_or_shaft
-                + (spec.motor_shaft_grip_length - spec.motor_shaft_hole_depth)
-            )
-            * bd.Cone(
-                top_radius=spec.motor_shaft_hole_id_outer / 2,
-                bottom_radius=spec.motor_shaft_hole_id_inner / 2,
-                height=spec.motor_shaft_hole_depth,
-                align=bde.align.ANCHOR_BOTTOM,
-            )
-        ).rotate(axis=bd.Axis.Y, angle=final_rot_value)
-        # Remove a hole for the the zeroing magnet on each rod.
-        p -= (
-            bd.Cylinder(
-                radius=spec.zeroing_magnet_od / 2,
-                height=spec.zeroing_magnet_height * 2,
-            )
-            .rotate(bd.Axis.X, angle=90)
-            .translate(
-                (
-                    0,
-                    -spec.motor_shaft_grip_od / 2,
-                    (
-                        cur_bottom_z
-                        + spec.rod_length_past_outside_wall_to_gear_or_shaft
-                        + spec.motor_shaft_grip_length / 2
-                    ),
-                )
-            )
-            .rotate(axis=bd.Axis.Y, angle=final_rot_value)
+    # Remove the motor shaft hole from the motor gripper.
+    p -= bd.Cone(  # TODO: Should be a d-shaft.
+        top_radius=spec.motor_shaft_hole_id_outer / 2,
+        bottom_radius=spec.motor_shaft_hole_id_inner / 2,
+        height=spec.motor_shaft_hole_depth,
+        align=bde.align.ANCHOR_TOP,
+    ).translate((0, 0, p.bounding_box().max.Z))
+
+    # Remove a hole for the the zeroing magnet on each rod.
+    p -= (
+        bd.Cylinder(
+            radius=spec.zeroing_magnet_od / 2,
+            height=spec.zeroing_magnet_height * 2,
         )
+        .rotate(bd.Axis.X, angle=90)
+        .translate(
+            (
+                0,
+                -spec.motor_shaft_grip_od / 2,
+                (p.bounding_box().max.Z - spec.motor_shaft_grip_length / 2),
+            )
+        )
+    )
+
+    if motor_side == "-Z":
+        p = p.rotate(bd.Axis.Y, angle=180)
 
     return p
 
 
-def make_housing(spec: HousingSpec) -> bd.Part:
+def make_housing(spec: HousingSpec) -> bd.Part | bd.Compound:
     """Make the housing that the screw fits into.
 
     Args:
@@ -404,7 +352,7 @@ def make_housing(spec: HousingSpec) -> bd.Part:
     # Remove the box inside the walls.
     p -= bd.Box(
         spec.inner_cavity_size_x,
-        spec.total_y - 2 * spec.front_back_wall_thickness,
+        spec.inner_cavity_size_y,
         spec.total_z - spec.top_face_thickness,
         align=bde.align.ANCHOR_BOTTOM,
     )
@@ -441,64 +389,73 @@ def make_housing(spec: HousingSpec) -> bd.Part:
             align=bde.align.ANCHOR_BOTTOM,
         )
 
-    # final_rod_part_top_gear = make_octagon_rod(spec, draw_gear_mode="top")
-    # final_rod_part_bottom_gear = make_octagon_rod(spec, draw_gear_mode="bottom")
-
     # For each `rod_x`.
     # Remove the rod holes.
-    for cell_x, rod_offset_x, final_rot_val in product(
+    for cell_x, z_rot_val in product(
         spec.get_cell_center_x_values(),
-        bde.evenly_space_with_center(count=2, spacing=spec.rod_pitch_x),
         (0, 180),
     ):
-        rod_x = cell_x + rod_offset_x
+        rod_x = cell_x
 
-        # Remove rod spot from inside of wall to rod_interface_min_od.
-        length_of_each_rod_extension_space = (
-            spec.front_back_wall_thickness - spec.rod_interface_min_od_length
-        ) / 2
-        p -= (
-            bd.Pos(
-                X=rod_x,
-                Y=spec.total_y / 2 - spec.front_back_wall_thickness,
-                Z=spec.rod_center_z_from_bottom,
-            )
-            * bd.Cylinder(
-                radius=spec.rod_extension_od / 2 + spec.rod_slop_diameter / 2,
-                height=length_of_each_rod_extension_space,
+        # Draw everything in here as the very left-most rod, extending in the +Y, with
+        # its motor in the very very top-left. Then, it gets rotated about the center of
+        # the cell.
+        # Draw it at its final Y/Z position, but assuming that the rod is at X=0.
+
+        p_neg_rod = bd.Part(None)
+        # -Y, stick into the wall part way.
+        # Removed because it's not needed and makes very thin walls.
+        # p_neg_rod += (
+        #     bd.Cylinder(
+        #         radius=spec.rod_extension_od / 2 + spec.rod_slop_diameter / 2,
+        #         height=(
+        #             spec.inner_cavity_size_y / 2
+        #             + spec.rod_dist_into_wall
+        #             + spec.rod_slop_axial
+        #         ),
+        #         align=bde.align.ANCHOR_BOTTOM,
+        #     )
+        #     .rotate(axis=bd.Axis.X, angle=90)
+        #     .translate((0, 0, spec.rod_center_z_from_bottom))
+        # )
+
+        # -Y, stick through the wall, small diameter.
+        p_neg_rod += (
+            bd.Cylinder(
+                radius=spec.rod_od_through_wall_pivot_side / 2
+                + spec.rod_slop_diameter / 2,
+                height=(spec.inner_cavity_size_y),
                 align=bde.align.ANCHOR_BOTTOM,
-            ).rotate(axis=bd.Axis.X, angle=-90)
-        ).rotate(axis=bd.Axis.Z, angle=final_rot_val)
-
-        # Remove `rod_interface_min_od` part.
-        # Lazy: Remove it all the way through.
-        p -= (
-            bd.Pos(X=rod_x, Z=spec.rod_center_z_from_bottom)
-            * bd.Cylinder(
-                radius=spec.rod_interface_min_od / 2 + spec.rod_slop_diameter / 2,
-                height=spec.total_y,
-                rotation=(90, 0, 0),
             )
-        ).rotate(axis=bd.Axis.Z, angle=final_rot_val)
+            .rotate(axis=bd.Axis.X, angle=90)
+            .translate((0, 0, spec.rod_center_z_from_bottom))
+        )
 
-        # Remove rod spot from rod_interface_min_od to outside wall.
-        p -= (
-            bd.Pos(
-                X=rod_x,
-                Y=spec.total_y / 2 - length_of_each_rod_extension_space,
-                Z=spec.rod_center_z_from_bottom,
-            )
-            * bd.Cylinder(
+        # +Y, stick through the wall, insertion point for entire rod.
+        # This side is where the magnet+motor is.
+        p_neg_rod += (
+            bd.Cylinder(
                 radius=spec.rod_extension_od / 2 + spec.rod_slop_diameter / 2,
-                height=length_of_each_rod_extension_space,
+                height=(spec.inner_cavity_size_y),
                 align=bde.align.ANCHOR_BOTTOM,
-            ).rotate(axis=bd.Axis.X, angle=-90)
-        ).rotate(axis=bd.Axis.Z, angle=final_rot_val)
+            )
+            .rotate(axis=bd.Axis.X, angle=-90)
+            .translate((0, 0, spec.rod_center_z_from_bottom))
+        )
+
+        # Do the rotation and X move.
+        p -= (
+            p_neg_rod.translate(((-spec.rod_pitch_x / 2), 0, 0))
+            .rotate(axis=bd.Axis.Z, angle=z_rot_val)
+            .translate((rod_x, 0, 0))
+        )
 
     return p
 
 
-def make_final_octagon_cam_rod() -> bd.Part:
+def make_final_octagon_cam_rod(
+    motor_side: Literal["+Z", "-Z"] = "+Z",
+) -> bd.Part | bd.Compound:
     """Make the octagon cam rod."""
     cam_spec = dot_column_cam_rod_octagon.MainSpec()
 
@@ -515,12 +472,12 @@ def make_final_octagon_cam_rod() -> bd.Part:
         ),
     )
 
-    full_rod_part = make_octagon_rod(housing_spec, "top")
+    full_rod_part = make_octagon_rod(housing_spec, motor_side=motor_side)
 
     return full_rod_part
 
 
-def make_octagon_cam_housing_no_rods() -> bd.Part:
+def make_octagon_cam_housing_no_rods() -> bd.Part | bd.Compound:
     """Make the octagon cam housing in place."""
     # TODO(KilowattSynthesis): Could add arg - housing_spec_overrides: dict[str, Any]
     cam_spec = dot_column_cam_rod_octagon.MainSpec()
@@ -545,32 +502,42 @@ def make_octagon_cam_housing_no_rods() -> bd.Part:
     return housing_part
 
 
-def make_octagon_cam_housing_assembly_preview() -> bd.Part:
-    """Make a preview of the housing assembly, with the final rods."""
-    housing_part = make_octagon_cam_housing_no_rods()
-    rod_part = make_final_octagon_cam_rod()
+def make_octagon_cam_housing_assembly_preview() -> bd.Part | bd.Compound:
+    """Make a preview of the housing assembly, with the rods installed."""
+    rod_part_pos_z = make_final_octagon_cam_rod("+Z")
+    rod_part_neg_z = make_final_octagon_cam_rod("-Z")
 
-    # # Add the rods.
-    # if enable_add_rods:
-    #     for rod_num, (cell_x, rod_offset_x) in enumerate(
-    #         product(
-    #             spec.get_cell_center_x_values(),
-    #             bde.evenly_space_with_center(count=2, spacing=spec.rod_pitch_x),
-    #         )
-    #     ):
-    #         rod_x = cell_x + rod_offset_x
-    #         rod_part = (
-    #             final_rod_part_top_gear
-    #             if rod_num % 2 == 0
-    #             else final_rod_part_bottom_gear
-    #         )
-    #         p += bd.Pos(X=rod_x, Z=spec.rod_center_z_from_bottom) * rod_part.rotate(
-    #             axis=bd.Axis.X,
-    #             # -90 puts the top-side of the rod at the back.
-    #             angle=-90,
-    #         )
+    cam_spec = dot_column_cam_rod_octagon.MainSpec()
+    housing_spec = HousingSpec(
+        rod_part=dot_column_cam_rod_octagon.make_cam_rod(cam_spec),
+        rod_props=GenericRodProperties(
+            min_od=cam_spec.cam_rod_diameter_major,
+            max_od=cam_spec.cam_rod_diameter_major,
+            od_top_end=cam_spec.cam_rod_diameter_major,
+            od_bottom_end=cam_spec.cam_rod_diameter_major,
+            length=cam_spec.cam_rod_length,
+        ),
+    )
 
-    return housing_part + rod_part
+    p = bd.Part(None)
+    p += make_octagon_cam_housing_no_rods()
+
+    # Add the rods.
+    for rod_num, (cell_x, rod_offset_x) in enumerate(
+        product(
+            housing_spec.get_cell_center_x_values(),
+            bde.evenly_space_with_center(count=2, spacing=housing_spec.rod_pitch_x),
+        )
+    ):
+        rod_x = cell_x + rod_offset_x
+        rod_part = rod_part_pos_z if rod_num % 2 == 0 else rod_part_neg_z
+        p += bd.Pos(X=rod_x, Z=housing_spec.rod_center_z_from_bottom) * rod_part.rotate(
+            axis=bd.Axis.X,
+            # -90 puts the top-side of the rod at the back.
+            angle=-90,
+        )
+
+    return p
 
 
 def print_pcb_column_x_coords(
@@ -607,14 +574,27 @@ def print_pcb_column_x_coords(
     )
 
 
+def preview_all() -> bd.Part | bd.Compound:
+    """Quick preview of all the parts."""
+    housing_part = make_octagon_cam_housing_no_rods()
+    rod_part = make_final_octagon_cam_rod().translate((0, -10, 0))
+
+    housing_and_rod_assembly = make_octagon_cam_housing_assembly_preview().translate(
+        (0, 25, 0)
+    )
+
+    return housing_part + rod_part + housing_and_rod_assembly
+
+
 if __name__ == "__main__":
     start_time = datetime.now(UTC)
     py_file_name = Path(__file__).name
     logger.info(f"Running {py_file_name}")
 
     parts = {
-        "octagon_cam_rod": show(make_final_octagon_cam_rod()),
+        "octagon_cam_rod": (make_final_octagon_cam_rod()),
         "octagon_cam_housing": (make_octagon_cam_housing_no_rods()),
+        "preview_all": show(preview_all()),
     }
 
     logger.info("Saving CAD model(s)...")
