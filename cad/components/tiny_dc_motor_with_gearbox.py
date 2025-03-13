@@ -43,18 +43,21 @@ class MainSpec:
         """Post initialization checks."""
         data = {
             "motor+gearbox": self.motor_length + self.gearbox_length,
-            "motor+gearbox+shaft_lip": (
-                self.motor_length + self.gearbox_length + self.shaft_lip_length
-            ),
+            "motor+gearbox+shaft_lip": (self.motor_plus_gearbox_plus_shaft_lip),
         }
         logger.info(json.dumps(data, indent=2))
+
+    @property
+    def motor_plus_gearbox_plus_shaft_lip(self) -> float:
+        """Length of `motor+gearbox+shaft_lip`."""
+        return self.motor_length + self.gearbox_length + self.shaft_lip_length
 
     def deep_copy(self) -> "MainSpec":
         """Copy the current spec."""
         return copy.deepcopy(self)
 
 
-def make_dc_motor_and_gearbox(spec: MainSpec) -> bd.Part:
+def make_dc_motor_and_gearbox(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make a tiny DC motor with planetary gearbox.
 
     Used for test fitting in KiCAD models, mostly.

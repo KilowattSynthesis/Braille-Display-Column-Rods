@@ -43,7 +43,7 @@ class MainSpec:
         return copy.deepcopy(self)
 
 
-def make_micro_stepper_motor_od_4p7(spec: MainSpec) -> bd.Part:
+def make_micro_stepper_motor_od_4p7(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make a micro stepper motor with OD of 4.7mm.
 
     Z=0 is right where the shaft starts, just past the lip.

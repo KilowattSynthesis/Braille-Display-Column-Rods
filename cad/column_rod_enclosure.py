@@ -92,7 +92,7 @@ class MainSpec:
         )
 
 
-def make_enclosure_top(spec: MainSpec) -> bd.Part:
+def make_enclosure_top(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make the top half of the enclosure."""
     p = bd.Part(None)
 
@@ -170,7 +170,7 @@ def make_enclosure_top(spec: MainSpec) -> bd.Part:
     return p
 
 
-def make_enclosure_bottom(spec: MainSpec) -> bd.Part:
+def make_enclosure_bottom(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make the bottom plate of the enclosure."""
     p = bd.Part(None)
 

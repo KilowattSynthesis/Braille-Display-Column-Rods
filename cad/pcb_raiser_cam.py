@@ -68,7 +68,7 @@ class MainSpec:
         return copy.deepcopy(self)
 
 
-def make_cam(spec: MainSpec) -> bd.Part:
+def make_cam(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make the cam for the tiny DC motor.
 
     Z=0 is the bottom of the cam (where the motor's Z=0 goes).
@@ -142,7 +142,7 @@ def make_cam(spec: MainSpec) -> bd.Part:
     return p
 
 
-def make_bushing_block(spec: MainSpec) -> bd.Part:
+def make_bushing_block(spec: MainSpec) -> bd.Part | bd.Compound:
     """Create the bushing block for the cam.
 
     Motor runs in the X direction, pointing in +X.
@@ -191,7 +191,7 @@ def make_bushing_block(spec: MainSpec) -> bd.Part:
     return p
 
 
-def make_assembly_cam_and_dc_motor(spec: MainSpec) -> bd.Part:
+def make_assembly_cam_and_dc_motor(spec: MainSpec) -> bd.Part | bd.Compound:
     """Make the cam and motor assembly."""
     p = bd.Part(None)
 
