@@ -6,6 +6,10 @@
     * The column rod must be in the Z-axis.
     * The rod's positioning does not matter. It will be centered by its bounding box.
     * The rod will be rotated such that max-Z is at the back (max-Y).
+
+## Order Variant Notes
+* W202502241729529 -> motor_shaft_grip_length = 3.2
+* W202502241736554 -> motor_shaft_grip_length = 3.7
 """
 
 import copy
@@ -127,7 +131,7 @@ class HousingSpec:
     motor_shaft_hole_id_outer: float = 0.65
     motor_shaft_hole_id_inner: float = 0.4
     motor_shaft_hole_depth: float = 2  # 1.4mm nominally.
-    motor_shaft_grip_length: float = 3.2  # Fits magnet within.
+    motor_shaft_grip_length: float = 3.7  # Fits magnet within.
     motor_shaft_grip_od: float = 3.2
 
     zeroing_magnet_od: float = 2.0
