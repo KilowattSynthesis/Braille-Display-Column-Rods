@@ -128,10 +128,10 @@ class HousingSpec:
 
     cell_count_x: int = 4
 
-    motor_shaft_hole_id_outer: float = 0.65
-    motor_shaft_hole_id_inner: float = 0.4
+    motor_shaft_hole_id_outer: float = 0.85
+    motor_shaft_hole_id_inner: float = 0.65
     motor_shaft_hole_depth: float = 2  # 1.4mm nominally.
-    motor_shaft_grip_length: float = 3.7  # Fits magnet within.
+    motor_shaft_grip_length: float = 3.2  # Parts fits magnet within.
     motor_shaft_grip_od: float = 3.2
 
     zeroing_magnet_od: float = 2.0
@@ -313,7 +313,9 @@ def make_octagon_rod(
             align=bde.align.ANCHOR_TOP,
         )
         # Make it a D-shaft.
-        & bd.Box(5, 5, 5, align=bde.align.ANCHOR_LEFT).translate((-0.15, 0, 0))
+        & bd.Box(5, 5, 5, align=bde.align.ANCHOR_LEFT).translate(
+            (-spec.motor_shaft_hole_id_outer * 0.25, 0, 0)
+        )
     ).translate((0, 0, p.bounding_box().max.Z))
 
     # Remove a hole for the the zeroing magnet on each rod.
