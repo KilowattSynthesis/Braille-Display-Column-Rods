@@ -629,7 +629,7 @@ def printable_cam_rods() -> bd.Part | bd.Compound:
     # Add rigid bodies parallel to the rods.
     for i in range(-1, part_count):
         p += bd.Cylinder(
-            radius=3.5 / 2,
+            radius=2.5 / 2,
             height=rail_parallel_length,
         ).translate((i * pitch_x + pitch_x / 2, 0))
 
@@ -637,12 +637,12 @@ def printable_cam_rods() -> bd.Part | bd.Compound:
     for side in [1, -1]:
         p += (
             bd.Cylinder(
-                radius=4 / 2,
-                height=pitch_x * (part_count + 1),
+                radius=2 / 2,
+                height=pitch_x * (part_count),
                 align=bde.align.ANCHOR_BOTTOM,
             )
             .rotate(bd.Axis.Y, angle=90)
-            .translate((-pitch_x, 0, side * rail_parallel_length / 2))
+            .translate((-pitch_x / 2, 0, side * rail_parallel_length / 2))
         )
 
     # On the motor side, connect sideways.
