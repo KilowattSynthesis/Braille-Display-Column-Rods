@@ -1,7 +1,7 @@
 (footprint "MicroStepper_4.7_OD"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(property "Reference" "REF**"
 		(at 0 1.6 0)
@@ -19,19 +19,6 @@
 		(unlocked yes)
 		(layer "F.Fab")
 		(uuid "57c1fce3-5bbc-4f6e-bb0b-072f744052e4")
-		(effects
-			(font
-				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 7.1 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "6a4a34ab-3131-43e6-9fdd-dcc33796c99a")
 		(effects
 			(font
 				(size 1 1)
@@ -99,7 +86,7 @@
 		(uuid "7604da7b-8137-4cd1-a8b4-f4fab735ae5c")
 	)
 	(fp_line
-		(start -1.4 6.4)
+		(start -1.6 6.4)
 		(end -2.4 6.4)
 		(stroke
 			(width 0.1)
@@ -120,7 +107,7 @@
 	)
 	(fp_line
 		(start 2.4 6.4)
-		(end 1.4 6.4)
+		(end 1.6 6.4)
 		(stroke
 			(width 0.1)
 			(type default)
@@ -135,7 +122,7 @@
 			(width 0.01)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.SilkS")
 		(uuid "564e6b60-ec63-441a-890f-bcd85eabd446")
 	)
@@ -146,7 +133,7 @@
 			(width 0.01)
 			(type solid)
 		)
-		(fill solid)
+		(fill yes)
 		(layer "F.SilkS")
 		(uuid "03cfc420-8f78-4f81-8534-67434dc80dcd")
 	)
@@ -157,7 +144,7 @@
 			(width 0.05)
 			(type default)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.CrtYd")
 		(uuid "9ccc8865-f194-45ce-a730-cc3d0980e811")
 	)
@@ -174,9 +161,9 @@
 		)
 	)
 	(pad "1" thru_hole roundrect
-		(at -0.7 3.4)
-		(size 1.2 1.8)
-		(drill oval 0.75 1.2)
+		(at -0.8 3.3)
+		(size 1.4 1.6)
+		(drill oval 0.9 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(roundrect_rratio 0.25)
@@ -184,9 +171,9 @@
 		(uuid "db1c68c9-5a63-410e-b61a-093e6240aab5")
 	)
 	(pad "2" thru_hole roundrect
-		(at 0.7 3.4)
-		(size 1.2 1.8)
-		(drill oval 0.75 1.2)
+		(at 0.8 3.3)
+		(size 1.4 1.6)
+		(drill oval 0.9 1)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(roundrect_rratio 0.25)
@@ -194,9 +181,9 @@
 		(uuid "c5b01322-c6f9-4786-b79b-281e494b84a9")
 	)
 	(pad "3" thru_hole roundrect
-		(at -0.7 5.8)
-		(size 1.2 2.2)
-		(drill oval 0.75 1.6)
+		(at -0.8 5.9)
+		(size 1.4 2)
+		(drill oval 0.9 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(roundrect_rratio 0.25)
@@ -204,15 +191,16 @@
 		(uuid "afa094f6-a607-4310-b00f-3544ad8a1148")
 	)
 	(pad "4" thru_hole roundrect
-		(at 0.7 5.8)
-		(size 1.2 2.2)
-		(drill oval 0.75 1.6)
+		(at 0.8 5.9)
+		(size 1.4 2)
+		(drill oval 0.9 1.4)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(roundrect_rratio 0.25)
 		(thermal_bridge_angle 45)
 		(uuid "19bf90ef-8244-4827-909b-9f1d2a353246")
 	)
+	(embedded_fonts no)
 	(model "${KIPRJMOD}/lib-cad/micro_stepper_motor_od_4p7.step"
 		(offset
 			(xyz 0 0 3)

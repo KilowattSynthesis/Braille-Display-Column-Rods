@@ -6,8 +6,8 @@
 	(paper "USLetter")
 	(title_block
 		(title "Braille Cam Rod Prototype (Type 4)")
-		(date "2025-02-03")
-		(rev "Rev 2")
+		(date "2025-06-29")
+		(rev "Rev 3")
 	)
 	(lib_symbols
 		(symbol "00-lib-symbols:AD116_H_Bridge"
