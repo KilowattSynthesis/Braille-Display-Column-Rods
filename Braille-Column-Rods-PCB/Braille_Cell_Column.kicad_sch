@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "d3cbee0c-f64e-4154-bf22-60ee8f65a426")
 	(paper "USLetter")
 	(title_block
@@ -87,24 +87,6 @@
 						)
 					)
 				)
-				(pin output line
-					(at 8.89 0 180)
-					(length 2.54)
-					(name "OUT"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin power_in line
 					(at 0 -7.62 90)
 					(length 2.54)
@@ -123,10 +105,31 @@
 						)
 					)
 				)
+				(pin output line
+					(at 8.89 0 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Device:C"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0.254)
 			)
@@ -199,7 +202,7 @@
 			(symbol "C_0_1"
 				(polyline
 					(pts
-						(xy -2.032 -0.762) (xy 2.032 -0.762)
+						(xy -2.032 0.762) (xy 2.032 0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -211,7 +214,7 @@
 				)
 				(polyline
 					(pts
-						(xy -2.032 0.762) (xy 2.032 0.762)
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -260,11 +263,16 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Device:LED"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 1.016) hide)
+				(offset 1.016)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -332,10 +340,22 @@
 			(symbol "LED_0_1"
 				(polyline
 					(pts
-						(xy -1.27 -1.27) (xy -1.27 1.27)
+						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
 					)
 					(stroke
-						(width 0.254)
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
+					)
+					(stroke
+						(width 0)
 						(type default)
 					)
 					(fill
@@ -356,7 +376,7 @@
 				)
 				(polyline
 					(pts
-						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+						(xy -1.27 -1.27) (xy -1.27 1.27)
 					)
 					(stroke
 						(width 0.254)
@@ -368,22 +388,10 @@
 				)
 				(polyline
 					(pts
-						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
 					)
 					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
-					)
-					(stroke
-						(width 0)
+						(width 0.254)
 						(type default)
 					)
 					(fill
@@ -429,9 +437,12 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Device:R"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0)
 			)
@@ -550,6 +561,7 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Driver_Motor:DRV8847SPWR"
 			(exclude_from_sim no)
@@ -648,17 +660,35 @@
 						)
 					)
 				)
-				(pin input line
-					(at -12.7 -10.16 0)
+				(pin bidirectional line
+					(at -12.7 7.62 0)
 					(length 2.54)
-					(name "IN4"
+					(name "SDA"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "10"
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at -12.7 5.08 0)
+					(length 2.54)
+					(name "~{FAULT}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -677,6 +707,78 @@
 						)
 					)
 					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -2.54 0)
+					(length 2.54)
+					(name "IN1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -5.08 0)
+					(length 2.54)
+					(name "IN2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -7.62 0)
+					(length 2.54)
+					(name "IN3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -10.16 0)
+					(length 2.54)
+					(name "IN4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -720,60 +822,6 @@
 						)
 					)
 				)
-				(pin bidirectional line
-					(at -12.7 7.62 0)
-					(length 2.54)
-					(name "SDA"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -5.08 0)
-					(length 2.54)
-					(name "IN2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -2.54 0)
-					(length 2.54)
-					(name "IN1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin output line
 					(at 12.7 10.16 180)
 					(length 2.54)
@@ -785,24 +833,6 @@
 						)
 					)
 					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -5.08 180)
-					(length 2.54)
-					(name "ISEN12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -829,6 +859,24 @@
 					)
 				)
 				(pin output line
+					(at 12.7 2.54 180)
+					(length 2.54)
+					(name "OUT3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
 					(at 12.7 0 180)
 					(length 2.54)
 					(name "OUT4"
@@ -839,6 +887,24 @@
 						)
 					)
 					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -5.08 180)
+					(length 2.54)
+					(name "ISEN12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -864,65 +930,14 @@
 						)
 					)
 				)
-				(pin output line
-					(at 12.7 2.54 180)
-					(length 2.54)
-					(name "OUT3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin open_collector line
-					(at -12.7 5.08 0)
-					(length 2.54)
-					(name "~{FAULT}"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
-					(at -12.7 -7.62 0)
-					(length 2.54)
-					(name "IN3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Motor:Stepper_Motor_bipolar"
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1004,70 +1019,10 @@
 				)
 			)
 			(symbol "Stepper_Motor_bipolar_0_1"
-				(arc
-					(start -4.445 -2.54)
-					(mid -3.8127 -1.905)
-					(end -4.445 -1.27)
-					(stroke
-						(width 0)
-						(type default)
+				(polyline
+					(pts
+						(xy -5.08 2.54) (xy -4.445 2.54)
 					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -4.445 -1.27)
-					(mid -3.8127 -0.635)
-					(end -4.445 0)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -4.445 0)
-					(mid -3.8127 0.635)
-					(end -4.445 1.27)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -4.445 1.27)
-					(mid -3.8127 1.905)
-					(end -4.445 2.54)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -2.54 4.445)
-					(mid -1.905 3.8127)
-					(end -1.27 4.445)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(arc
-					(start -1.27 4.445)
-					(mid -0.635 3.8127)
-					(end 0 4.445)
 					(stroke
 						(width 0)
 						(type default)
@@ -1088,10 +1043,46 @@
 						(type none)
 					)
 				)
-				(polyline
-					(pts
-						(xy -5.08 2.54) (xy -4.445 2.54)
+				(arc
+					(start -4.445 2.54)
+					(mid -3.8127 1.905)
+					(end -4.445 1.27)
+					(stroke
+						(width 0)
+						(type default)
 					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -4.445 1.27)
+					(mid -3.8127 0.635)
+					(end -4.445 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -4.445 0)
+					(mid -3.8127 -0.635)
+					(end -4.445 -1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start -4.445 -1.27)
+					(mid -3.8127 -1.905)
+					(end -4.445 -2.54)
 					(stroke
 						(width 0)
 						(type default)
@@ -1112,10 +1103,22 @@
 						(type none)
 					)
 				)
-				(polyline
-					(pts
-						(xy 2.54 5.08) (xy 2.54 4.445)
+				(arc
+					(start -1.27 4.445)
+					(mid -1.905 3.8127)
+					(end -2.54 4.445)
+					(stroke
+						(width 0)
+						(type default)
 					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 4.445)
+					(mid -0.635 3.8127)
+					(end -1.27 4.445)
 					(stroke
 						(width 0)
 						(type default)
@@ -1136,9 +1139,9 @@
 					)
 				)
 				(arc
-					(start 0 4.445)
+					(start 1.27 4.445)
 					(mid 0.635 3.8127)
-					(end 1.27 4.445)
+					(end 0 4.445)
 					(stroke
 						(width 0)
 						(type default)
@@ -1148,9 +1151,21 @@
 					)
 				)
 				(arc
-					(start 1.27 4.445)
+					(start 2.54 4.445)
 					(mid 1.905 3.8127)
-					(end 2.54 4.445)
+					(end 1.27 4.445)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 5.08) (xy 2.54 4.445)
+					)
 					(stroke
 						(width 0)
 						(type default)
@@ -1161,42 +1176,6 @@
 				)
 			)
 			(symbol "Stepper_Motor_bipolar_1_1"
-				(pin passive line
-					(at -2.54 7.62 270)
-					(length 2.54)
-					(name "~"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 2.54 7.62 270)
-					(length 2.54)
-					(name "-"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin passive line
 					(at -7.62 2.54 0)
 					(length 2.54)
@@ -1233,13 +1212,54 @@
 						)
 					)
 				)
+				(pin passive line
+					(at -2.54 7.62 270)
+					(length 2.54)
+					(name "~"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 2.54 7.62 270)
+					(length 2.54)
+					(name "-"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "power:+3V3"
 			(power)
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1311,7 +1331,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 0) (xy 0 2.54)
+						(xy 0 2.54) (xy 0.762 1.27)
 					)
 					(stroke
 						(width 0)
@@ -1323,7 +1343,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
+						(xy 0 0) (xy 0 2.54)
 					)
 					(stroke
 						(width 0)
@@ -1354,12 +1374,17 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "power:GND"
 			(power)
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1450,12 +1475,17 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "power:VDC"
 			(power)
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1527,7 +1557,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 0) (xy 0 2.54)
+						(xy 0 2.54) (xy 0.762 1.27)
 					)
 					(stroke
 						(width 0)
@@ -1539,7 +1569,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
+						(xy 0 0) (xy 0 2.54)
 					)
 					(stroke
 						(width 0)
@@ -1570,7 +1600,100 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
+	)
+	(rectangle
+		(start 30.48 78.74)
+		(end 193.675 165.735)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid b6718050-f1a6-4ee4-ac3d-fd386bc63f2c)
+	)
+	(rectangle
+		(start 94.615 14.605)
+		(end 163.195 64.135)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid f956899b-f8e4-42f2-9b1f-ebcb4f09ada2)
+	)
+	(text "Note: Current sense can be 0 ohms or inf ohms probably.\nThe resistors here are used to limit the current,\nvia some amplifier circuit I think."
+		(exclude_from_sim no)
+		(at 61.214 162.56 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.1588)
+			)
+			(justify left)
+		)
+		(uuid "19fe5fe7-5bf0-4c07-82c3-e157ce16e9d0")
+	)
+	(text "Current sense notes:\n- Page 55 of Datasheet\n- I_TRIP = Torque_frac * V_TRIP / R_SENSE_XX\n- I_TRIP = V_VM / (R_L + R_DS_ON_SUM + R_SENSE_XX)\n- R_SENSE = V_TRIP / I_TRIP\n- V_TRIP = 0.15 V (internally-regulated)\n\n- 0.30 ohms with 5V causes near-overheat after a few seconds.\n- 0.30 ohms sets I_TRIP = 500 mA at Torque=100%\n- 0.30 ohms sets I_TRIP = 250 mA at Torque=50%\n\nTo decrease the torque, lower the voltage\nand/or set Torque = 50% register."
+		(exclude_from_sim no)
+		(at 127.508 135.382 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.1588)
+			)
+			(justify left top)
+		)
+		(uuid "4a9394a1-a8ec-4370-8509-bf04370a7156")
+	)
+	(text "~{FAULT} requires\next. pull-up."
+		(exclude_from_sim no)
+		(at 41.148 84.582 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "6da5b464-b5fc-47cc-aea8-58ac814babf8")
+	)
+	(text "Note: Must be the \"S\" variant to support I2C."
+		(exclude_from_sim no)
+		(at 103.378 100.33 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "783b77a3-9171-4803-bbf3-03d72c2f8d8e")
+	)
+	(text "Stepper Motor and Motor Driver"
+		(exclude_from_sim no)
+		(at 119.888 87.376 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "9abcdde9-d6a1-43ab-bc3f-32bfd07b78ba")
+	)
+	(text "Hall Magnet Sensor\n(Analog)"
+		(exclude_from_sim no)
+		(at 117.348 20.828 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "c0e1df09-3f73-407d-a608-d0d3a9ac0dc0")
 	)
 	(junction
 		(at 129.54 53.34)
@@ -2032,98 +2155,6 @@
 		)
 		(uuid "ffa18fa6-8d0d-4dfb-910a-19962c0b088c")
 	)
-	(rectangle
-		(start 30.48 78.74)
-		(end 193.675 165.735)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid b6718050-f1a6-4ee4-ac3d-fd386bc63f2c)
-	)
-	(rectangle
-		(start 94.615 14.605)
-		(end 163.195 64.135)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid f956899b-f8e4-42f2-9b1f-ebcb4f09ada2)
-	)
-	(text "Note: Current sense can be 0 ohms or inf ohms probably.\nThe resistors here are used to limit the current,\nvia some amplifier circuit I think."
-		(exclude_from_sim no)
-		(at 61.214 162.56 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.1588)
-			)
-			(justify left)
-		)
-		(uuid "19fe5fe7-5bf0-4c07-82c3-e157ce16e9d0")
-	)
-	(text "Current sense notes:\n- Page 55 of Datasheet\n- I_TRIP = Torque_frac * V_TRIP / R_SENSE_XX\n- I_TRIP = V_VM / (R_L + R_DS_ON_SUM + R_SENSE_XX)\n- R_SENSE = V_TRIP / I_TRIP\n- V_TRIP = 0.15 V (internally-regulated)\n\n- 0.30 ohms with 5V causes near-overheat after a few seconds.\n- 0.30 ohms sets I_TRIP = 500 mA at Torque=100%\n- 0.30 ohms sets I_TRIP = 250 mA at Torque=50%\n\nTo decrease the torque, lower the voltage\nand/or set Torque = 50% register."
-		(exclude_from_sim no)
-		(at 127.508 135.382 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-				(thickness 0.1588)
-			)
-			(justify left top)
-		)
-		(uuid "4a9394a1-a8ec-4370-8509-bf04370a7156")
-	)
-	(text "~{FAULT} requires\next. pull-up."
-		(exclude_from_sim no)
-		(at 41.148 84.582 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "6da5b464-b5fc-47cc-aea8-58ac814babf8")
-	)
-	(text "Note: Must be the \"S\" variant to support I2C."
-		(exclude_from_sim no)
-		(at 103.378 100.33 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "783b77a3-9171-4803-bbf3-03d72c2f8d8e")
-	)
-	(text "Stepper Motor and Motor Driver"
-		(exclude_from_sim no)
-		(at 119.888 87.376 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "9abcdde9-d6a1-43ab-bc3f-32bfd07b78ba")
-	)
-	(text "Hall Magnet Sensor\n(Analog)"
-		(exclude_from_sim no)
-		(at 117.348 20.828 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "c0e1df09-3f73-407d-a608-d0d3a9ac0dc0")
-	)
 	(global_label "I2C_SCL"
 		(shape input)
 		(at 68.58 125.73 180)
@@ -2210,7 +2241,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "039b70a6-f204-44d9-98c9-7f6fbb140a78")
-		(property "Reference" "#PWR066"
+		(property "Reference" "#PWR06"
 			(at 66.04 106.68 0)
 			(effects
 				(font
@@ -2304,7 +2335,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "19313320-6c15-4247-837f-617e6dccb719")
-		(property "Reference" "R27"
+		(property "Reference" "R5"
 			(at 54.61 100.3299 0)
 			(effects
 				(font
@@ -2402,7 +2433,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "193a1130-e750-40bd-88a8-4673f81bf509")
-		(property "Reference" "D9"
+		(property "Reference" "D1"
 			(at 55.88 113.3474 90)
 			(effects
 				(font
@@ -2500,7 +2531,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1b75c16d-185f-4fb8-8250-8422cfbeb360")
-		(property "Reference" "M6"
+		(property "Reference" "M1"
 			(at 132.08 124.879 0)
 			(effects
 				(font
@@ -2604,7 +2635,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "22388958-2e60-4a41-8a6f-9631988b0938")
-		(property "Reference" "#PWR068"
+		(property "Reference" "#PWR013"
 			(at 85.09 153.67 0)
 			(effects
 				(font
@@ -2698,7 +2729,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "2f9af286-84d6-4c0e-87b4-bb4ecc79e518")
-		(property "Reference" "#PWR063"
+		(property "Reference" "#PWR03"
 			(at 43.18 99.06 0)
 			(effects
 				(font
@@ -2791,7 +2822,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "31ad5f1c-945c-4215-9454-206c55a592d8")
-		(property "Reference" "#PWR0125"
+		(property "Reference" "#PWR0115"
 			(at 106.68 53.34 0)
 			(effects
 				(font
@@ -2885,7 +2916,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "338fdb6d-ec77-420e-9f8f-0d185f6f7ef1")
-		(property "Reference" "#PWR069"
+		(property "Reference" "#PWR021"
 			(at 102.87 158.75 0)
 			(effects
 				(font
@@ -2979,7 +3010,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "39f5876f-52f3-47ec-a537-8107868f8d45")
-		(property "Reference" "#PWR0124"
+		(property "Reference" "#PWR0114"
 			(at 106.68 36.83 0)
 			(effects
 				(font
@@ -3073,7 +3104,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "75142586-85a4-4008-afce-e84664eeb282")
-		(property "Reference" "R26"
+		(property "Reference" "R1"
 			(at 45.72 100.3299 0)
 			(effects
 				(font
@@ -3170,7 +3201,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "77a5060d-26ad-4135-9970-409bb3cad719")
-		(property "Reference" "#PWR075"
+		(property "Reference" "#PWR057"
 			(at 66.04 90.17 0)
 			(effects
 				(font
@@ -3264,7 +3295,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "79d1a96f-f172-4a7e-8764-290d9066bc60")
-		(property "Reference" "R28"
+		(property "Reference" "R6"
 			(at 105.41 143.5099 0)
 			(effects
 				(font
@@ -3362,7 +3393,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "895352f5-dc12-4aa7-86c7-5b7d1d08b57d")
-		(property "Reference" "C6"
+		(property "Reference" "C1"
 			(at 69.85 91.4399 0)
 			(effects
 				(font
@@ -3460,7 +3491,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "9dd133be-470a-4c57-8349-895dadae14f4")
-		(property "Reference" "C30"
+		(property "Reference" "C25"
 			(at 143.51 48.2599 0)
 			(effects
 				(font
@@ -3558,7 +3589,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a0cc1b2a-9aef-43f3-b6cb-9698721ea6b7")
-		(property "Reference" "U22"
+		(property "Reference" "U17"
 			(at 125.73 40.6399 0)
 			(effects
 				(font
@@ -3667,7 +3698,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "a2a69800-c8f5-40d1-9d7e-7d794dca3a5a")
-		(property "Reference" "#PWR0143"
+		(property "Reference" "#PWR0138"
 			(at 129.54 63.5 0)
 			(effects
 				(font
@@ -3761,7 +3792,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "a2b0c712-5d13-470c-a1ad-cf043c01e107")
-		(property "Reference" "#PWR064"
+		(property "Reference" "#PWR04"
 			(at 52.07 99.06 0)
 			(effects
 				(font
@@ -3855,7 +3886,7 @@
 		(on_board yes)
 		(dnp no)
 		(uuid "be4fc96f-86fd-483d-9136-f6eaeac2fc78")
-		(property "Reference" "C22"
+		(property "Reference" "C17"
 			(at 102.87 38.0999 0)
 			(effects
 				(font
@@ -3953,7 +3984,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf0cb4b7-994f-492a-a2c8-baefb8de5fe7")
-		(property "Reference" "#PWR0135"
+		(property "Reference" "#PWR0130"
 			(at 129.54 34.29 0)
 			(effects
 				(font
@@ -4047,7 +4078,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d00f9321-15d8-4c3a-902a-fd97c896b73f")
-		(property "Reference" "#PWR070"
+		(property "Reference" "#PWR026"
 			(at 114.3 158.75 0)
 			(effects
 				(font
@@ -4141,7 +4172,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d6337429-b72e-4885-ad67-488b2be829ec")
-		(property "Reference" "#PWR039"
+		(property "Reference" "#PWR05"
 			(at 85.09 113.03 0)
 			(effects
 				(font
@@ -4235,7 +4266,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "d6e9cbf5-5402-4655-a1e6-510eb4bf314e")
-		(property "Reference" "R29"
+		(property "Reference" "R7"
 			(at 116.84 143.5099 0)
 			(effects
 				(font
@@ -4333,7 +4364,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "e03cb342-c05b-4d5c-8066-41dd09a7abb3")
-		(property "Reference" "U7"
+		(property "Reference" "U1"
 			(at 87.2841 110.49 0)
 			(effects
 				(font

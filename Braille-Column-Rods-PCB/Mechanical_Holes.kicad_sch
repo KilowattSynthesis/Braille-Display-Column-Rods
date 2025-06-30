@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "3b1ad847-21e6-434a-a257-cc4bfdd7d8b6")
 	(paper "USLetter")
 	(title_block
@@ -11,9 +11,13 @@
 	)
 	(lib_symbols
 		(symbol "Mechanical:MountingHole_Pad"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 1.016) hide)
+				(offset 1.016)
+				(hide yes)
+			)
 			(exclude_from_sim yes)
 			(in_bom no)
 			(on_board yes)
@@ -111,15 +115,8 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
-	)
-	(no_connect
-		(at 168.91 50.8)
-		(uuid "92a59f57-f5a3-4588-9d76-c94dadd52d6e")
-	)
-	(no_connect
-		(at 168.91 41.91)
-		(uuid "bab0d211-5469-4bf4-8b86-5d8d48fa82b8")
 	)
 	(rectangle
 		(start 156.21 26.67)
@@ -155,6 +152,14 @@
 			)
 		)
 		(uuid "3dc3d950-dac8-4c92-a1fb-501794be1233")
+	)
+	(no_connect
+		(at 168.91 50.8)
+		(uuid "92a59f57-f5a3-4588-9d76-c94dadd52d6e")
+	)
+	(no_connect
+		(at 168.91 41.91)
+		(uuid "bab0d211-5469-4bf4-8b86-5d8d48fa82b8")
 	)
 	(symbol
 		(lib_id "Mechanical:MountingHole_Pad")

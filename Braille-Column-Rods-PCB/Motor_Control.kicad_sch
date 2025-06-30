@@ -1,7 +1,7 @@
 (kicad_sch
-	(version 20231120)
+	(version 20250114)
 	(generator "eeschema")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(uuid "d403f5b4-76ed-4ed0-a66b-53fb9ebd0732")
 	(paper "USLetter")
 	(title_block
@@ -76,35 +76,17 @@
 				)
 			)
 			(symbol "74HC595_1_0"
-				(pin tri_state line
-					(at 10.16 7.62 180)
-					(length 2.54)
-					(name "QB"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin input line
-					(at -10.16 2.54 0)
+					(at -10.16 10.16 0)
 					(length 2.54)
-					(name "~{SRCLR}"
+					(name "SER"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "10"
+					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -123,6 +105,24 @@
 						)
 					)
 					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "~{SRCLR}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -166,17 +166,35 @@
 						)
 					)
 				)
-				(pin input line
-					(at -10.16 10.16 0)
+				(pin power_in line
+					(at 0 15.24 270)
 					(length 2.54)
-					(name "SER"
+					(name "VCC"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "14"
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -17.78 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -202,17 +220,17 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 15.24 270)
+				(pin tri_state line
+					(at 10.16 7.62 180)
 					(length 2.54)
-					(name "VCC"
+					(name "QB"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "16"
+					(number "1"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -328,24 +346,6 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 -17.78 90)
-					(length 2.54)
-					(name "GND"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
 				(pin output line
 					(at 10.16 -12.7 180)
 					(length 2.54)
@@ -378,6 +378,7 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "74xx:CD74HC4067M"
 			(exclude_from_sim no)
@@ -515,17 +516,17 @@
 						)
 					)
 				)
-				(pin power_in line
-					(at 0 -27.94 90)
+				(pin input line
+					(at -12.7 -2.54 0)
 					(length 3.81)
-					(name "GND"
+					(name "S2"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "12"
+					(number "14"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -552,24 +553,6 @@
 					)
 				)
 				(pin input line
-					(at -12.7 -2.54 0)
-					(length 3.81)
-					(name "S2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin input line
 					(at -12.7 -15.24 0)
 					(length 3.81)
 					(name "~{E}"
@@ -580,168 +563,6 @@
 						)
 					)
 					(number "15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -20.32 180)
-					(length 3.81)
-					(name "I15"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "16"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -17.78 180)
-					(length 3.81)
-					(name "I14"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "17"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -15.24 180)
-					(length 3.81)
-					(name "I13"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "18"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -12.7 180)
-					(length 3.81)
-					(name "I12"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "19"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 0 180)
-					(length 3.81)
-					(name "I7"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -10.16 180)
-					(length 3.81)
-					(name "I11"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "20"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -7.62 180)
-					(length 3.81)
-					(name "I10"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "21"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -5.08 180)
-					(length 3.81)
-					(name "I9"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "22"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 -2.54 180)
-					(length 3.81)
-					(name "I8"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "23"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -767,17 +588,17 @@
 						)
 					)
 				)
-				(pin passive line
-					(at 12.7 2.54 180)
+				(pin power_in line
+					(at 0 -27.94 90)
 					(length 3.81)
-					(name "I6"
+					(name "GND"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "3"
+					(number "12"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -786,70 +607,16 @@
 					)
 				)
 				(pin passive line
-					(at 12.7 5.08 180)
+					(at 12.7 17.78 180)
 					(length 3.81)
-					(name "I5"
+					(name "I0"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 7.62 180)
-					(length 3.81)
-					(name "I4"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "5"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 10.16 180)
-					(length 3.81)
-					(name "I3"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "6"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-				(pin passive line
-					(at 12.7 12.7 180)
-					(length 3.81)
-					(name "I2"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "7"
+					(number "9"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -876,16 +643,250 @@
 					)
 				)
 				(pin passive line
-					(at 12.7 17.78 180)
+					(at 12.7 12.7 180)
 					(length 3.81)
-					(name "I0"
+					(name "I2"
 						(effects
 							(font
 								(size 1.27 1.27)
 							)
 						)
 					)
-					(number "9"
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 10.16 180)
+					(length 3.81)
+					(name "I3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 7.62 180)
+					(length 3.81)
+					(name "I4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 5.08 180)
+					(length 3.81)
+					(name "I5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 2.54 180)
+					(length 3.81)
+					(name "I6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 0 180)
+					(length 3.81)
+					(name "I7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -2.54 180)
+					(length 3.81)
+					(name "I8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -5.08 180)
+					(length 3.81)
+					(name "I9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -7.62 180)
+					(length 3.81)
+					(name "I10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -10.16 180)
+					(length 3.81)
+					(name "I11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -12.7 180)
+					(length 3.81)
+					(name "I12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -15.24 180)
+					(length 3.81)
+					(name "I13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -17.78 180)
+					(length 3.81)
+					(name "I14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 12.7 -20.32 180)
+					(length 3.81)
+					(name "I15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
 						(effects
 							(font
 								(size 1.27 1.27)
@@ -894,9 +895,12 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Device:C"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0.254)
 			)
@@ -969,7 +973,7 @@
 			(symbol "C_0_1"
 				(polyline
 					(pts
-						(xy -2.032 -0.762) (xy 2.032 -0.762)
+						(xy -2.032 0.762) (xy 2.032 0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -981,7 +985,7 @@
 				)
 				(polyline
 					(pts
-						(xy -2.032 0.762) (xy 2.032 0.762)
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
 					)
 					(stroke
 						(width 0.508)
@@ -1030,9 +1034,12 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "Device:R"
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
 				(offset 0)
 			)
@@ -1151,12 +1158,17 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "power:+3V3"
 			(power)
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1228,7 +1240,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 0) (xy 0 2.54)
+						(xy 0 2.54) (xy 0.762 1.27)
 					)
 					(stroke
 						(width 0)
@@ -1240,7 +1252,7 @@
 				)
 				(polyline
 					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
+						(xy 0 0) (xy 0 2.54)
 					)
 					(stroke
 						(width 0)
@@ -1271,12 +1283,17 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
 		(symbol "power:GND"
 			(power)
-			(pin_numbers hide)
+			(pin_numbers
+				(hide yes)
+			)
 			(pin_names
-				(offset 0) hide)
+				(offset 0)
+				(hide yes)
+			)
 			(exclude_from_sim no)
 			(in_bom yes)
 			(on_board yes)
@@ -1367,7 +1384,102 @@
 					)
 				)
 			)
+			(embedded_fonts no)
 		)
+	)
+	(rectangle
+		(start 18.415 94.615)
+		(end 166.37 160.02)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 05c3bfac-7193-49a7-9e1d-71af6a4e4410)
+	)
+	(rectangle
+		(start 208.28 133.35)
+		(end 234.95 168.91)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid 70b57293-d0ba-42fe-b12b-9c5610e36844)
+	)
+	(rectangle
+		(start 173.99 38.1)
+		(end 246.38 132.08)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid f173f1a8-3b0e-445c-883d-f96b7ce6fb02)
+	)
+	(rectangle
+		(start 18.415 17.145)
+		(end 166.37 93.98)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill
+			(type none)
+		)
+		(uuid f9eeaf20-49ba-43f4-8280-1fc9ede5d19f)
+	)
+	(text "Hall Effect Switch"
+		(exclude_from_sim no)
+		(at 227.33 57.404 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "04095231-f1f6-487d-bb80-3d7705d554aa")
+	)
+	(text "Braille Column Rods Motors"
+		(exclude_from_sim no)
+		(at 50.038 21.844 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "0429812c-3c64-4bde-a2ff-fa9c7ff281d7")
+	)
+	(text "TODO: Could save power by switching off the hall effect sensors and mux."
+		(exclude_from_sim no)
+		(at 210.82 15.748 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "426855d5-5234-4c9e-98dd-b7e5e88d3078")
+	)
+	(text "DC Corner Motors"
+		(exclude_from_sim no)
+		(at 37.846 155.702 0)
+		(effects
+			(font
+				(size 2.54 2.54)
+				(thickness 0.508)
+				(bold yes)
+			)
+		)
+		(uuid "7e8bf4ff-0354-422c-b195-5c183389e2aa")
 	)
 	(junction
 		(at 212.09 151.13)
@@ -2708,100 +2820,6 @@
 			(type default)
 		)
 		(uuid "ff7d2ad3-e37f-4c81-a3f1-f615513be82d")
-	)
-	(rectangle
-		(start 18.415 94.615)
-		(end 166.37 160.02)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid 05c3bfac-7193-49a7-9e1d-71af6a4e4410)
-	)
-	(rectangle
-		(start 208.28 133.35)
-		(end 234.95 168.91)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid 70b57293-d0ba-42fe-b12b-9c5610e36844)
-	)
-	(rectangle
-		(start 173.99 38.1)
-		(end 246.38 132.08)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid f173f1a8-3b0e-445c-883d-f96b7ce6fb02)
-	)
-	(rectangle
-		(start 18.415 17.145)
-		(end 166.37 93.98)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(fill
-			(type none)
-		)
-		(uuid f9eeaf20-49ba-43f4-8280-1fc9ede5d19f)
-	)
-	(text "Hall Effect Switch"
-		(exclude_from_sim no)
-		(at 227.33 57.404 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "04095231-f1f6-487d-bb80-3d7705d554aa")
-	)
-	(text "Braille Column Rods Motors"
-		(exclude_from_sim no)
-		(at 50.038 21.844 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "0429812c-3c64-4bde-a2ff-fa9c7ff281d7")
-	)
-	(text "TODO: Could save power by switching off the hall effect sensors and mux."
-		(exclude_from_sim no)
-		(at 210.82 15.748 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		(uuid "426855d5-5234-4c9e-98dd-b7e5e88d3078")
-	)
-	(text "DC Corner Motors"
-		(exclude_from_sim no)
-		(at 37.846 155.702 0)
-		(effects
-			(font
-				(size 2.54 2.54)
-				(thickness 0.508)
-				(bold yes)
-			)
-		)
-		(uuid "7e8bf4ff-0354-422c-b195-5c183389e2aa")
 	)
 	(label "HALL_1"
 		(at 182.88 76.2 0)
@@ -5130,6 +5148,10 @@
 	(sheet
 		(at 121.92 115.57)
 		(size 22.86 10.795)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5159,33 +5181,33 @@
 		)
 		(pin "IN_A" input
 			(at 121.92 119.38 180)
+			(uuid "700a26b2-2e02-4df0-890d-f2f2f4fbfaf1")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "700a26b2-2e02-4df0-890d-f2f2f4fbfaf1")
 		)
 		(pin "IN_B" input
 			(at 121.92 121.92 180)
+			(uuid "a632eba8-7bde-43a2-a2de-e35e2635bc16")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "a632eba8-7bde-43a2-a2de-e35e2635bc16")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 124.46 0)
+			(uuid "5649f214-bc82-4b23-b640-4f247d624aeb")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "5649f214-bc82-4b23-b640-4f247d624aeb")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5198,6 +5220,10 @@
 	(sheet
 		(at 121.92 57.15)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5227,33 +5253,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 121.92 60.96 180)
+			(uuid "5099d239-6817-47ef-b1e8-ede74b027b82")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "5099d239-6817-47ef-b1e8-ede74b027b82")
 		)
 		(pin "~{SLEEP}" input
 			(at 121.92 64.77 180)
+			(uuid "ca7caf1b-c087-4724-8580-bc4a0f98bf0b")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "ca7caf1b-c087-4724-8580-bc4a0f98bf0b")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 67.31 0)
+			(uuid "395ed85f-8304-421c-a075-f68b9d425f3d")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "395ed85f-8304-421c-a075-f68b9d425f3d")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5266,6 +5292,10 @@
 	(sheet
 		(at 121.92 97.79)
 		(size 22.86 10.795)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5295,33 +5325,33 @@
 		)
 		(pin "IN_A" input
 			(at 121.92 101.6 180)
+			(uuid "f8fe9a9f-22b4-42cb-9986-4382deb0d02d")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "f8fe9a9f-22b4-42cb-9986-4382deb0d02d")
 		)
 		(pin "IN_B" input
 			(at 121.92 104.14 180)
+			(uuid "3cb20489-0d60-4233-bf9e-7eda75b9b946")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "3cb20489-0d60-4233-bf9e-7eda75b9b946")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 106.68 0)
+			(uuid "931d8e77-7593-47c2-8852-1b40cd614598")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "931d8e77-7593-47c2-8852-1b40cd614598")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5334,6 +5364,10 @@
 	(sheet
 		(at 121.92 39.37)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5363,33 +5397,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 121.92 43.18 180)
+			(uuid "9d1bef5a-7515-4d46-9a86-ee88694ee0d7")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "9d1bef5a-7515-4d46-9a86-ee88694ee0d7")
 		)
 		(pin "~{SLEEP}" input
 			(at 121.92 46.99 180)
+			(uuid "ec301f7e-b5f7-4401-b774-4f60a72127f5")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "ec301f7e-b5f7-4401-b774-4f60a72127f5")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 49.53 0)
+			(uuid "9186f8c2-7c5d-485a-b9e0-8f928cc6c40b")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "9186f8c2-7c5d-485a-b9e0-8f928cc6c40b")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5402,6 +5436,10 @@
 	(sheet
 		(at 85.09 97.79)
 		(size 22.86 10.795)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5431,33 +5469,33 @@
 		)
 		(pin "IN_A" input
 			(at 85.09 101.6 180)
+			(uuid "963ba1be-ce2d-4943-a2fb-2da2d4afed4b")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "963ba1be-ce2d-4943-a2fb-2da2d4afed4b")
 		)
 		(pin "IN_B" input
 			(at 85.09 104.14 180)
+			(uuid "02719353-e2bb-4dcd-860f-21fb7a0ba797")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "02719353-e2bb-4dcd-860f-21fb7a0ba797")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 106.68 0)
+			(uuid "2d5c30ab-ce5b-4554-a59d-3c1dd5908d87")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "2d5c30ab-ce5b-4554-a59d-3c1dd5908d87")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5470,6 +5508,10 @@
 	(sheet
 		(at 121.92 74.93)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5499,33 +5541,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 121.92 78.74 180)
+			(uuid "97c29d52-c709-4951-a5fc-824e603d39e1")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "97c29d52-c709-4951-a5fc-824e603d39e1")
 		)
 		(pin "~{SLEEP}" input
 			(at 121.92 82.55 180)
+			(uuid "f6ca066a-2c7b-4c1c-8d71-1583b2eed9f7")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "f6ca066a-2c7b-4c1c-8d71-1583b2eed9f7")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 85.09 0)
+			(uuid "e55a44f8-62af-46cd-9f83-f9ef5225ee6f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "e55a44f8-62af-46cd-9f83-f9ef5225ee6f")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5538,6 +5580,10 @@
 	(sheet
 		(at 85.09 21.59)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5567,33 +5613,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 85.09 25.4 180)
+			(uuid "8e5b3bb1-6fad-489c-9b65-40f1e70abe30")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "8e5b3bb1-6fad-489c-9b65-40f1e70abe30")
 		)
 		(pin "~{SLEEP}" input
 			(at 85.09 29.21 180)
+			(uuid "a75ab94c-1294-4aa4-97f7-512b01cc2609")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "a75ab94c-1294-4aa4-97f7-512b01cc2609")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 31.75 0)
+			(uuid "1799fb79-1f0c-4ae5-90a1-c9e449c5c9b5")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "1799fb79-1f0c-4ae5-90a1-c9e449c5c9b5")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5606,6 +5652,10 @@
 	(sheet
 		(at 121.92 21.59)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5635,33 +5685,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 121.92 25.4 180)
+			(uuid "f67be0b6-2c7e-4f5d-8e0d-6b9d754ba8b0")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "f67be0b6-2c7e-4f5d-8e0d-6b9d754ba8b0")
 		)
 		(pin "~{SLEEP}" input
 			(at 121.92 29.21 180)
+			(uuid "7aeb87c3-9df0-424e-88d3-1876d185f1e5")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "7aeb87c3-9df0-424e-88d3-1876d185f1e5")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 144.78 31.75 0)
+			(uuid "822fcc01-ffb2-4063-8c7f-4c1e219818ee")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "822fcc01-ffb2-4063-8c7f-4c1e219818ee")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5674,6 +5724,10 @@
 	(sheet
 		(at 85.09 39.37)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5703,33 +5757,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 85.09 43.18 180)
+			(uuid "eb031737-0144-4c30-91a9-5087ae4a7860")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "eb031737-0144-4c30-91a9-5087ae4a7860")
 		)
 		(pin "~{SLEEP}" input
 			(at 85.09 46.99 180)
+			(uuid "1f4b918e-a026-43c8-bfe6-7c073e648b6f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "1f4b918e-a026-43c8-bfe6-7c073e648b6f")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 49.53 0)
+			(uuid "83154e96-6afd-4884-8d46-de34095589ee")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "83154e96-6afd-4884-8d46-de34095589ee")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5742,6 +5796,10 @@
 	(sheet
 		(at 85.09 115.57)
 		(size 22.86 10.795)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5771,33 +5829,33 @@
 		)
 		(pin "IN_A" input
 			(at 85.09 119.38 180)
+			(uuid "115ba1e0-b402-42bc-b4f0-93bc450d9d3b")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "115ba1e0-b402-42bc-b4f0-93bc450d9d3b")
 		)
 		(pin "IN_B" input
 			(at 85.09 121.92 180)
+			(uuid "72e026da-df00-48be-967d-8db2bbf1ce14")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "72e026da-df00-48be-967d-8db2bbf1ce14")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 124.46 0)
+			(uuid "ce5e1399-5eca-484c-a266-ea785c8390ac")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "ce5e1399-5eca-484c-a266-ea785c8390ac")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5810,6 +5868,10 @@
 	(sheet
 		(at 85.09 74.93)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5839,33 +5901,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 85.09 78.74 180)
+			(uuid "ed55f83d-a29e-4e7f-9c4b-103d04ed9c7c")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "ed55f83d-a29e-4e7f-9c4b-103d04ed9c7c")
 		)
 		(pin "~{SLEEP}" input
 			(at 85.09 82.55 180)
+			(uuid "6a8f03ef-9b07-4d6f-9ba3-8b71c168197e")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "6a8f03ef-9b07-4d6f-9ba3-8b71c168197e")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 85.09 0)
+			(uuid "94fdd568-03dd-4377-9f5f-f17110b42db7")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "94fdd568-03dd-4377-9f5f-f17110b42db7")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
@@ -5878,6 +5940,10 @@
 	(sheet
 		(at 85.09 57.15)
 		(size 22.86 11.43)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
 		(fields_autoplaced yes)
 		(stroke
 			(width 0.1524)
@@ -5907,33 +5973,33 @@
 		)
 		(pin "~{FAULT}" output
 			(at 85.09 60.96 180)
+			(uuid "cb493eac-5089-430b-b649-1a98a5611a8d")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "cb493eac-5089-430b-b649-1a98a5611a8d")
 		)
 		(pin "~{SLEEP}" input
 			(at 85.09 64.77 180)
+			(uuid "54acbef1-e56a-4c54-a218-6077d363109f")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify left)
 			)
-			(uuid "54acbef1-e56a-4c54-a218-6077d363109f")
 		)
 		(pin "HALL_ANALOG_OUT" output
 			(at 107.95 67.31 0)
+			(uuid "1f98f606-9b0a-4d51-8b9c-14a733276d21")
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
 				(justify right)
 			)
-			(uuid "1f98f606-9b0a-4d51-8b9c-14a733276d21")
 		)
 		(instances
 			(project "Braille-Column-Rods-PCB"
