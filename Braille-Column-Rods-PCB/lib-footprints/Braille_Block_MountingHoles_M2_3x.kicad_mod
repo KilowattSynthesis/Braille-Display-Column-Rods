@@ -1,7 +1,7 @@
 (footprint "Braille_Block_MountingHoles_M2_3x"
-	(version 20240108)
+	(version 20241229)
 	(generator "pcbnew")
-	(generator_version "8.0")
+	(generator_version "9.0")
 	(layer "F.Cu")
 	(descr "Mounting Hole 2.2mm, M2")
 	(tags "mounting hole 2.2mm m2")
@@ -24,19 +24,6 @@
 		(effects
 			(font
 				(size 1 1)
-				(thickness 0.15)
-			)
-		)
-	)
-	(property "Footprint" ""
-		(at 0 0 0)
-		(unlocked yes)
-		(layer "F.Fab")
-		(hide yes)
-		(uuid "2ccf3f58-f606-45bc-83d9-328cdaf029af")
-		(effects
-			(font
-				(size 1.27 1.27)
 				(thickness 0.15)
 			)
 		)
@@ -75,7 +62,7 @@
 			(width 0.05)
 			(type default)
 		)
-		(fill none)
+		(fill no)
 		(layer "F.CrtYd")
 		(uuid "ebe0dc63-3bb7-4fd9-9b92-e6b0885fd5de")
 	)
@@ -93,7 +80,7 @@
 	(pad "1" thru_hole circle
 		(at 0 -3)
 		(size 3 3)
-		(drill 2.2)
+		(drill 2)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "74729211-3df0-45a6-be6d-3b718dd2613b")
@@ -101,7 +88,7 @@
 	(pad "1" thru_hole circle
 		(at 0 0)
 		(size 4.4 4.4)
-		(drill 2.2)
+		(drill 2)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "b3d21159-18b1-466e-a141-f0f75094e16e")
@@ -109,11 +96,12 @@
 	(pad "1" thru_hole circle
 		(at 0 3)
 		(size 3 3)
-		(drill 2.2)
+		(drill 2)
 		(layers "*.Cu" "*.Mask")
 		(remove_unused_layers no)
 		(uuid "43a80a44-6c09-4827-b328-1f72ca04fdc4")
 	)
+	(embedded_fonts no)
 	(model "${KIPRJMOD}/lib-cad/octagon_cam_housing_print_in_place.step"
 		(hide yes)
 		(opacity 0.6400)
