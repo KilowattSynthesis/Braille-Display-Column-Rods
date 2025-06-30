@@ -214,7 +214,7 @@ def set_shift_registers(data: list[bool]) -> None:
 
 def set_shift_register_activate_stepper(stepper_num: int) -> None:
     """Activate the stepper motor by setting the shift register bits.
-    
+
     Stepper numbers start at 0.
     """
     if stepper_num < 0 or stepper_num > 7:
@@ -228,7 +228,7 @@ def set_shift_register_activate_stepper(stepper_num: int) -> None:
 
 def demo_each_corner_motor(duration_each_direction_ms: int = 200) -> None:
     """Spin each corner motor 1 sec in each direction.
-    
+
     Order: NW (0), NE (1), SW (2), SE (3).
     """
 
@@ -307,6 +307,7 @@ def demo_read_each_hall_sensor() -> None:
         val = read_hall_sensor_u16(i)
         print(f"Hall sensor {i}: {val:,}")
 
+
 def demo_gp_leds() -> None:
     """Demo the general purpose LEDs."""
     for i in range(2):
@@ -316,7 +317,7 @@ def demo_gp_leds() -> None:
         PIN_GP_LED_0.value(1)
         PIN_GP_LED_1.value(0)
         time.sleep_ms(100)
-    
+
     PIN_GP_LED_0.value(0)
     PIN_GP_LED_1.value(0)
 
@@ -345,9 +346,9 @@ def demo_zeroing_corner_motor() -> None:
 
         time.sleep(1)
 
+
 def demo_driving_stepper_motor() -> None:
     print("Starting demo_driving_stepper_motor()")
-    set_shift_register_activate_stepper(0)
 
     drive_motor(step_period_sec=0.02, step_count=100)
 
@@ -360,6 +361,54 @@ def demo_driving_stepper_motor() -> None:
 
     disable_motor()
     time.sleep(2)
+
+
+def print_available_commands() -> None:
+    print("""
+Available commands:
+    - help()
+    - init(), reset()
+          
+
+    - <just a single period>
+        -> Repeat the last command.
+    """)
+
+
+def help() -> None:
+    print_available_commands()
+
+
+class GlobalStoreSingleton:
+    def __init__(self):
+        self.last_command = "help"
+
+
+global_store = GlobalStoreSingleton()
+
+
+def prompt_and_execute() -> None:
+    print("Enter a command, or use 'help':")
+    command = input(">> ").strip()
+
+    if command == ".":
+        print("Repeating last command.")
+        command = global_store.last_command
+    else:
+        command = command.strip()
+        global_store.last_command = command  # Store for repeat feature.
+
+    # If the command does not have parentheses, add them.
+    if "(" not in command and ")" not in command:
+        command += "()"
+
+    print(f"Executing command: {command}\n")
+
+    try:
+        exec(command)
+    except Exception as e:
+        print(f"Error: {e}")
+    print()
 
 
 def main() -> None:
@@ -380,21 +429,23 @@ def main() -> None:
 
     hall_sensor_self_check()
 
+    while True:
+        prompt_and_execute()
+
     # print("Starting demo_zeroing_corner_motor()")
     # demo_zeroing_corner_motor()
     # print("Done demo_zeroing_corner_motor()")
 
-    demo_driving_stepper_motor()
+    # demo_driving_stepper_motor()
 
-    while 1:
-        print("Starting demo_each_corner_motor()")
-        demo_each_corner_motor(duration_each_direction_ms=500)
-        print("Done demo_each_corner_motor()")
+    # while 1:
+    #     print("Starting demo_each_corner_motor()")
+    #     demo_each_corner_motor(duration_each_direction_ms=500)
+    #     print("Done demo_each_corner_motor()")
 
-        print("Starting demo_read_each_hall_sensor()")
-        demo_read_each_hall_sensor()
-        print("Done demo_read_each_hall_sensor()")
-
+    #     print("Starting demo_read_each_hall_sensor()")
+    #     demo_read_each_hall_sensor()
+    #     print("Done demo_read_each_hall_sensor()")
 
     # while 1:
     #     print("Starting rolling sphere demo.")
