@@ -1435,7 +1435,7 @@
 		)
 		(uuid f9eeaf20-49ba-43f4-8280-1fc9ede5d19f)
 	)
-	(text "Hall Effect Switch"
+	(text "Hall Sensor Switch"
 		(exclude_from_sim no)
 		(at 227.33 57.404 0)
 		(effects

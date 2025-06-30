@@ -2442,7 +2442,7 @@
 				(justify right)
 			)
 		)
-		(property "Value" "LED"
+		(property "Value" "RED_LED"
 			(at 55.88 115.8874 90)
 			(effects
 				(font

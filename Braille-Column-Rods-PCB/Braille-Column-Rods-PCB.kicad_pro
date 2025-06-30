@@ -535,7 +535,11 @@
       "version": 4
     },
     "net_colors": null,
-    "netclass_assignments": null,
+    "netclass_assignments": {
+      "Net-(J1-Pin_2)": [
+        "Power"
+      ]
+    },
     "netclass_patterns": [
       {
         "netclass": "Power",
