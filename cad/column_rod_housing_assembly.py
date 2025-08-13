@@ -137,6 +137,9 @@ class HousingSpec:
     zeroing_magnet_od: float = 2.0
     zeroing_magnet_height: float = 0.7  # Sink it a bit more.
 
+    # MARK: Assembly jig settings.
+    motor_body_od: float = 4.7
+
     def __post_init__(self) -> None:
         """Post initialization checks."""
         magnet_coord_y = (
@@ -443,8 +446,9 @@ def make_housing(spec: HousingSpec) -> bd.Part | bd.Compound:
         # -Y, stick through the wall, small diameter.
         p_neg_rod += (
             bd.Cylinder(
-                radius=spec.rod_od_through_wall_pivot_side / 2
-                + spec.rod_slop_diameter / 2,
+                radius=(
+                    spec.rod_od_through_wall_pivot_side / 2 + spec.rod_slop_diameter / 2
+                ),
                 height=(spec.inner_cavity_size_y),
                 align=bde.align.ANCHOR_BOTTOM,
             )
@@ -474,10 +478,8 @@ def make_housing(spec: HousingSpec) -> bd.Part | bd.Compound:
     return p
 
 
-def make_final_octagon_cam_rod(
-    motor_side: Literal["+Z", "-Z"] = "+Z",
-) -> bd.Part | bd.Compound:
-    """Make the octagon cam rod."""
+def get_nominal_housing_spec() -> HousingSpec:
+    """Get the nominal housing specification."""
     cam_spec = dot_column_cam_rod_octagon.MainSpec()
 
     rod_part = dot_column_cam_rod_octagon.make_cam_rod(cam_spec)
@@ -492,6 +494,14 @@ def make_final_octagon_cam_rod(
             length=cam_spec.cam_rod_length,
         ),
     )
+    return housing_spec
+
+
+def make_final_octagon_cam_rod(
+    motor_side: Literal["+Z", "-Z"] = "+Z",
+) -> bd.Part | bd.Compound:
+    """Make the octagon cam rod."""
+    housing_spec = get_nominal_housing_spec()
 
     full_rod_part = make_octagon_rod(housing_spec, motor_side=motor_side)
 
@@ -501,20 +511,7 @@ def make_final_octagon_cam_rod(
 def make_octagon_cam_housing_no_rods() -> bd.Part | bd.Compound:
     """Make the octagon cam housing in place."""
     # TODO(KilowattSynthesis): Could add arg - housing_spec_overrides: dict[str, Any]
-    cam_spec = dot_column_cam_rod_octagon.MainSpec()
-
-    rod_part = dot_column_cam_rod_octagon.make_cam_rod(cam_spec)
-
-    housing_spec = HousingSpec(
-        rod_part=rod_part,
-        rod_props=GenericRodProperties(
-            min_od=cam_spec.cam_rod_diameter_major,
-            max_od=cam_spec.cam_rod_diameter_major,
-            od_top_end=cam_spec.cam_rod_diameter_major,
-            od_bottom_end=cam_spec.cam_rod_diameter_major,
-            length=cam_spec.cam_rod_length,
-        ),
-    )
+    housing_spec = get_nominal_housing_spec()
 
     print_pcb_column_x_coords(housing_spec)
 
@@ -528,17 +525,7 @@ def make_octagon_cam_housing_assembly_preview() -> bd.Part | bd.Compound:
     rod_part_pos_z = make_final_octagon_cam_rod("+Z")
     rod_part_neg_z = make_final_octagon_cam_rod("-Z")
 
-    cam_spec = dot_column_cam_rod_octagon.MainSpec()
-    housing_spec = HousingSpec(
-        rod_part=dot_column_cam_rod_octagon.make_cam_rod(cam_spec),
-        rod_props=GenericRodProperties(
-            min_od=cam_spec.cam_rod_diameter_major,
-            max_od=cam_spec.cam_rod_diameter_major,
-            od_top_end=cam_spec.cam_rod_diameter_major,
-            od_bottom_end=cam_spec.cam_rod_diameter_major,
-            length=cam_spec.cam_rod_length,
-        ),
-    )
+    housing_spec = get_nominal_housing_spec()
 
     p = bd.Part(None)
     p += make_octagon_cam_housing_no_rods()
@@ -595,16 +582,72 @@ def print_pcb_column_x_coords(
     )
 
 
+def assembly_jig(housing_spec: HousingSpec) -> bd.Part | bd.Compound:
+    """Create the assembly jig for the column rod housing.
+
+    Holds the motors in place so they can be soldered into the PCB easily.
+    """
+    p = bd.Part(None)
+
+    # Create the base of the jig.
+    p += bd.Box(
+        housing_spec.total_x + 10,
+        jig_total_y := 10,
+        10,
+        align=bde.align.ANCHOR_BOTTOM,
+    )
+
+    # Create holes for the motor bodies.
+    for cell_x in housing_spec.get_cell_center_x_values():
+        rod_x = cell_x + housing_spec.rod_pitch_x / 2
+
+        p -= bd.Pos(X=rod_x, Z=housing_spec.rod_center_z_from_bottom) * (
+            # Rounded cylinder is the top.
+            bd.Cylinder(
+                radius=housing_spec.motor_body_od / 2 + 0.2,
+                height=30,  # Arbitrary.
+            ).rotate(
+                axis=bd.Axis.X,
+                # -90 puts the top-side of the rod at the back.
+                angle=-90,
+            )
+            # Square extension out the bottom.
+            + bd.Box(
+                housing_spec.motor_body_od + 0.4,
+                30,  # Arbitrary through the bottom.
+                30,  # Arbitrary through the bottom.
+                align=bde.align.ANCHOR_TOP,
+            )
+        )
+
+    # Remove the main box so it can sorta slot in over it.
+    for z_rot in (0, 180):
+        p -= (
+            bd.Box(
+                housing_spec.total_x + 0.4,
+                jig_total_y,
+                30,
+                align=(bd.Align.CENTER, bd.Align.MAX, bd.Align.MIN),
+            )
+            .translate((0, -jig_total_y / 2 + 3, 0))
+            .rotate(bd.Axis.Z, angle=z_rot)
+        )
+
+    return p
+
+
 def preview_all() -> bd.Part | bd.Compound:
     """Quick preview of all the parts."""
     housing_part = make_octagon_cam_housing_no_rods()
-    rod_part = make_final_octagon_cam_rod().translate((0, -10, 0))
+    rod_part = make_final_octagon_cam_rod().translate((-40, 0, 0))
+
+    assembly_jig_part = assembly_jig(get_nominal_housing_spec()).translate((0, -25, 0))
 
     housing_and_rod_assembly = make_octagon_cam_housing_assembly_preview().translate(
         (0, 25, 0)
     )
 
-    p = housing_part + rod_part + housing_and_rod_assembly
+    p = housing_part + rod_part + housing_and_rod_assembly + assembly_jig_part
 
     if isinstance(p, list):
         p = bd.Compound(p)
@@ -674,13 +717,14 @@ if __name__ == "__main__":
     logger.info(f"Running {py_file_name}")
 
     parts = {
-        "printable_cam_rods": show(printable_cam_rods()),
+        "preview_all": show(preview_all()),
+        "printable_cam_rods": (printable_cam_rods()),
         "octagon_cam_rod": (make_final_octagon_cam_rod()),
         "octagon_cam_housing": (make_octagon_cam_housing_no_rods()),
         "octagon_cam_housing_assembly_preview": (
             make_octagon_cam_housing_assembly_preview()
         ),
-        "preview_all": (preview_all()),
+        "assembly_jig": (assembly_jig(get_nominal_housing_spec())),
     }
 
     logger.info("Saving CAD model(s)...")
