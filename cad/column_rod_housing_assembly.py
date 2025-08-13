@@ -305,7 +305,7 @@ def make_octagon_rod(
     ).translate((0, 0, p.bounding_box().max.Z))
 
     # Remove the motor shaft hole from the motor coupler.
-    p -= (
+    motor_shaft_d_hole = (
         bd.Cone(
             top_radius=spec.motor_shaft_hole_id_outer / 2,
             bottom_radius=spec.motor_shaft_hole_id_inner / 2,
@@ -317,6 +317,7 @@ def make_octagon_rod(
             (-spec.motor_shaft_hole_id_outer * 0.25, 0, 0)
         )
     ).translate((0, 0, p.bounding_box().max.Z))
+    p -= motor_shaft_d_hole
 
     # Remove a hole for the the zeroing magnet on each rod.
     p -= (
