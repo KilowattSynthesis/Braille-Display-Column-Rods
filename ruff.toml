@@ -1,6 +1,8 @@
-target-version = "py311"
+target-version = "py313"
 
 line-length = 88
+
+extend-exclude = ["firmware"]
 
 [lint]
 select = ["ALL"]
