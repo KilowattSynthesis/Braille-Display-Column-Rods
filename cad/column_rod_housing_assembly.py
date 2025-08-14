@@ -589,10 +589,16 @@ def assembly_jig(housing_spec: HousingSpec) -> bd.Part | bd.Compound:
     """
     p = bd.Part(None)
 
+    # Distance from enclosure to tail end of motor body.
+    motor_body_length = 10.0
+
+    # Amount to hug the enclosure on each side.
+    enclosure_interface_length = 2.0
+
     # Create the base of the jig.
     p += bd.Box(
-        housing_spec.total_x + 10,
-        jig_total_y := 10,
+        housing_spec.total_x + (2 * 3),
+        jig_total_y := motor_body_length + 2 * enclosure_interface_length,
         10,
         align=bde.align.ANCHOR_BOTTOM,
     )
@@ -629,7 +635,7 @@ def assembly_jig(housing_spec: HousingSpec) -> bd.Part | bd.Compound:
                 30,
                 align=(bd.Align.CENTER, bd.Align.MAX, bd.Align.MIN),
             )
-            .translate((0, -jig_total_y / 2 + 3, 0))
+            .translate((0, -jig_total_y / 2 + enclosure_interface_length, 0))
             .rotate(bd.Axis.Z, angle=z_rot)
         )
 
