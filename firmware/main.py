@@ -363,16 +363,30 @@ def demo_driving_stepper_motor() -> None:
     time.sleep(2)
 
 
+def get_all_functions() -> list[str]:
+    function_type = type(lambda: None)
+
+    return list(
+        sorted(
+            n
+            for n, o in globals().items()
+            if isinstance(o, function_type) and not n.startswith("_")
+        )
+    )
+
+
 def print_available_commands() -> None:
     print("""
 Available commands:
     - help()
-    - init(), reset()
-          
 
     - <just a single period>
         -> Repeat the last command.
     """)
+
+    print("All functions:")
+    for func in get_all_functions():
+        print(f"    - {func}(...)")
 
 
 def help() -> None:
