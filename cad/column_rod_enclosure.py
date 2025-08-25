@@ -29,7 +29,7 @@ from loguru import logger
 
 
 @dataclass(kw_only=True)
-class MainSpec:
+class Spec:
     """Specification for braille enclosure."""
 
     dot_pitch_x: float = 2.5
@@ -70,7 +70,7 @@ class MainSpec:
         }
         logger.info(json.dumps(data, indent=2))
 
-    def deep_copy(self) -> "MainSpec":
+    def deep_copy(self) -> "Spec":
         """Copy the current spec."""
         return copy.deepcopy(self)
 
@@ -92,7 +92,7 @@ class MainSpec:
         )
 
 
-def make_enclosure_top(spec: MainSpec) -> bd.Part | bd.Compound:
+def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
     """Make the top half of the enclosure."""
     p = bd.Part(None)
 
@@ -170,7 +170,7 @@ def make_enclosure_top(spec: MainSpec) -> bd.Part | bd.Compound:
     return p
 
 
-def make_enclosure_bottom(spec: MainSpec) -> bd.Part | bd.Compound:
+def make_enclosure_bottom(spec: Spec) -> bd.Part | bd.Compound:
     """Make the bottom plate of the enclosure."""
     p = bd.Part(None)
 
@@ -212,14 +212,25 @@ def make_enclosure_bottom(spec: MainSpec) -> bd.Part | bd.Compound:
     return p
 
 
+def preview_both_enclosure_parts(spec: Spec) -> bd.Part | bd.Compound:
+    """Preview both the top and bottom enclosure parts."""
+    p = bd.Part(None)
+
+    p += make_enclosure_top(spec).translate((0, 0, 3))
+    p += make_enclosure_bottom(spec).translate((0, 0, -3))
+
+    return p
+
+
 if __name__ == "__main__":
     start_time = datetime.now(UTC)
     py_file_name = Path(__file__).name
     logger.info(f"Running {py_file_name}")
 
     parts = {
-        "enclosure_top": show(make_enclosure_top(MainSpec())),
-        "enclosure_bottom": (make_enclosure_bottom(MainSpec())),
+        "preview_both_enclosure_parts": show(preview_both_enclosure_parts(Spec())),
+        "enclosure_top": (make_enclosure_top(Spec())),
+        "enclosure_bottom": (make_enclosure_bottom(Spec())),
     }
 
     logger.info("Saving CAD model(s)...")
