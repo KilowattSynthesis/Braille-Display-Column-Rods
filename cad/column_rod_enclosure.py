@@ -5,13 +5,14 @@ This family is the set of designs that looks like foosball.
 ## Concept
 
 * Exterior housing (solid relative to user; PCB moves 1mm inside).
-* Use screws to raise and lower the PCB inside the fixed enclosure. In each corner:
+* Use `pcb_raiser_cam` to raise and lower the PCB inside the fixed enclosure.
+* In each corner:
     * Anchor an M2 or M3 screw through the top and bottom enclosures.
-    * Use a fixed M2 or M3 bolt through a tapped metal spur gear.
-    * Use a solder-on or glue-on tab over the spur gear to axially constrain the spur
-        gear to the PCB.
-    * Zeroing with magnet or conductive tin foil tab (or conductive ESD sponge) from
-        top-side to the PCB.
+    * Use fixed metal rods/bolts in each corner of the enclosure.
+    * Use springs pushing up on the PCB to keep the dots in the "raised" position for
+        most CAM positions.
+    * Use the cams to push the PCB down against the springs (cams push against the top
+        plate) to lower into the "adjust positions" state.
 """
 
 import copy
@@ -39,19 +40,28 @@ class Spec:
     cell_count_x: int = 4
     dot_hole_id: float = 1.7
 
-    pcb_length_x: float = 60
-    pcb_length_y: float = 50
+    pcb_length_x: float = 95
+    pcb_length_y: float = 99
     # PCB + Housing + Screw_Heads -or- PCB + Raiser_Motor_OD + Raiser_Motor_Clip
     pcb_and_housing_thickness_z: float = 1.6 + 6.0 + 1.0
     pcb_travel_z: float = 2
     pcb_extra_z: float = 3  # Extra dist in Z, for housing-to-PCB screw heads.
 
-    pcb_raiser_screw_sep_x: float = 50
-    pcb_raiser_screw_sep_y: float = 40
-    pcb_raiser_screw_diameter: float = 2  # M2
+    # PCB layout - corner screws.
+    pcb_raiser_screw_sep_x: float = 42.6
+    pcb_raiser_screw_sep_y: float = 88.0
+    pcb_raiser_screw_diameter: float = 3  # M3
 
-    enclosure_total_x: float = 100
-    enclosure_total_y: float = 60
+    # PCB layout - where is the braille display.
+    # _pcb_center_y = (75.5 + 174.5) / 2 = 125 (which is also the center of the dots).
+    braille_display_y_offset_from_center: float = 0.0
+    # _pcb_center_x = (84 + 179) / 2 = 131.5
+    # _dots_center_x = 110.25
+    # _pcb_to_dots_x = 110.25 - 131.5 = -21.25
+    braille_display_x_offset_from_center: float = -21.25
+
+    enclosure_total_x: float = 130
+    enclosure_total_y: float = 125
     enclosure_wall_thickness_xy: float = 2.2
     enclosure_wall_thickness_bottom: float = 2
     enclosure_wall_thickness_top: float = 2
@@ -158,8 +168,8 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
         bde.evenly_space_with_center(count=2, spacing=spec.dot_pitch_x),
         bde.evenly_space_with_center(count=3, spacing=spec.dot_pitch_y),
     ):
-        dot_x = cell_x + rod_offset_x
-        dot_y = dot_offset_y
+        dot_x = spec.braille_display_x_offset_from_center + cell_x + rod_offset_x
+        dot_y = spec.braille_display_y_offset_from_center + dot_offset_y
 
         p -= bd.Pos(dot_x, dot_y) * bd.Cylinder(
             radius=spec.dot_hole_id / 2,
