@@ -60,7 +60,10 @@ class MainSpec:
 
     def __post_init__(self) -> None:
         """Post initialization checks."""
-        data = {}
+        data = {
+            "cam_min_od": self.cam_main_od - self.cam_travel / 2,
+            "cam_max_od": self.cam_main_od + self.cam_travel / 2,
+        }
         logger.info(json.dumps(data, indent=2))
 
     def deep_copy(self) -> "MainSpec":
@@ -204,15 +207,25 @@ def make_assembly_cam_and_dc_motor(spec: MainSpec) -> bd.Part | bd.Compound:
     return p
 
 
+def preview_all() -> bd.Part | bd.Compound:
+    """Preview all the parts defined here."""
+    p = bd.Part(None)
+    p += make_cam(MainSpec()).translate((0, 0, 0))
+    p += make_dc_motor_and_gearbox(MotorMainSpec()).translate((10, 0, 0))
+    p += make_bushing_block(MainSpec()).translate((20, 0, 0))
+    return p
+
+
 if __name__ == "__main__":
     start_time = datetime.now(UTC)
     py_file_name = Path(__file__).name
     logger.info(f"Running {py_file_name}")
 
     parts = {
-        "cam": show(make_cam(MainSpec())),
-        "assembly_cam_and_dc_motor": show(make_assembly_cam_and_dc_motor(MainSpec())),
-        "bushing_block": show(make_bushing_block(MainSpec())),
+        "preview_all": show(preview_all()),
+        "cam": (make_cam(MainSpec())),
+        "assembly_cam_and_dc_motor": (make_assembly_cam_and_dc_motor(MainSpec())),
+        "bushing_block": (make_bushing_block(MainSpec())),
     }
 
     logger.info("Saving CAD model(s)...")
