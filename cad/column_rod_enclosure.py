@@ -49,7 +49,8 @@ class Spec:
 
     # PCB layout - corner screws.
     pcb_raiser_screw_sep_x: float = 42.6
-    pcb_raiser_screw_sep_y: float = 88.0
+    pcb_raiser_screw_sep_y_1: float = 88.0
+    pcb_raiser_screw_sep_y_2: float = 70.0
     pcb_raiser_screw_diameter: float = 3  # M3
 
     # PCB layout - where is the braille display.
@@ -59,6 +60,10 @@ class Spec:
     # _dots_center_x = 110.25
     # _pcb_to_dots_x = 110.25 - 131.5 = -21.25
     braille_display_x_offset_from_center: float = -21.25
+
+    # PCB layout - where is the thick RP2040-Zero and USB port to remove from the top?
+    rp2040_cutout_x_range: tuple[float, float] = (18, 400)
+    rp2040_cutout_y_range: tuple[float, float] = (-26, 15)
 
     enclosure_total_x: float = 130
     enclosure_total_y: float = 125
@@ -100,6 +105,35 @@ class Spec:
             count=self.cell_count_x,
             spacing=self.cell_pitch_x,
         )
+
+    def get_pcb_raiser_screw_coordinates(self) -> list[tuple[float, float]]:
+        """Get the coordinates of the PCB raiser screws."""
+        return [
+            (
+                x_sign * self.pcb_raiser_screw_sep_x / 2,
+                y_sign * y_sep / 2,
+            )
+            for x_sign, y_sign in product((1, -1), (1, -1))
+            for y_sep in (self.pcb_raiser_screw_sep_y_1, self.pcb_raiser_screw_sep_y_2)
+        ]
+
+
+def box_from_ranges(
+    range_x: tuple[float, float],
+    range_y: tuple[float, float],
+    range_z: tuple[float, float],
+) -> bd.Box:
+    """Create a box with the given dimensions."""
+    assert range_x[1] > range_x[0]
+    assert range_y[1] > range_y[0]
+    assert range_z[1] > range_z[0]
+
+    return bd.Box(
+        range_x[1] - range_x[0],
+        range_y[1] - range_y[0],
+        range_z[1] - range_z[0],
+        align=(bd.Align.MIN, bd.Align.MIN, bd.Align.MIN),
+    ).translate((range_x[0], range_y[0], range_z[0]))
 
 
 def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
@@ -150,13 +184,12 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
         )
 
     # Remove the holes for the `pcb_raiser_screw`.
-    for x_sign, y_sign in product((1, 0, -1), (1, -1)):
-        pos = bd.Pos(
-            x_sign * spec.pcb_raiser_screw_sep_x / 2,
-            y_sign * spec.pcb_raiser_screw_sep_y / 2,
+    for x_val, y_val in spec.get_pcb_raiser_screw_coordinates():
+        p -= bd.Pos(
+            x_val,
+            y_val,
             spec.enclosure_wall_thickness_bottom,
-        )
-        p -= pos * bd.Cylinder(
+        ) * bd.Cylinder(
             radius=spec.pcb_raiser_screw_diameter / 2,
             height=spec.enclosure_total_z,
             align=bde.align.ANCHOR_BOTTOM,
@@ -176,6 +209,13 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
             height=spec.enclosure_total_z,
             align=bde.align.ANCHOR_BOTTOM,
         )
+
+    # Remove the RP2040 cutout.
+    p -= box_from_ranges(
+        range_x=spec.rp2040_cutout_x_range,
+        range_y=spec.rp2040_cutout_y_range,
+        range_z=(-50, 50),
+    )
 
     return p
 
@@ -208,12 +248,8 @@ def make_enclosure_bottom(spec: Spec) -> bd.Part | bd.Compound:
         )
 
     # Remove the holes for the `pcb_raiser_screw`.
-    for x_sign, y_sign in product((1, 0, -1), (1, -1)):
-        pos = bd.Pos(
-            x_sign * spec.pcb_raiser_screw_sep_x / 2,
-            y_sign * spec.pcb_raiser_screw_sep_y / 2,
-        )
-        p -= pos * bd.Cylinder(
+    for x_val, y_val in spec.get_pcb_raiser_screw_coordinates():
+        p -= bd.Pos(x_val, y_val, 0) * bd.Cylinder(
             radius=spec.pcb_raiser_screw_diameter / 2,
             height=spec.enclosure_total_z,
             align=bde.align.ANCHOR_BOTTOM,
