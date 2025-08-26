@@ -302,6 +302,17 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
                 align=bde.align.ANCHOR_TOP,
             )
 
+        # Add a larger post/stopper right in the corner.
+        p += bd.Pos(
+            x_corner * (spec.pcb_length_x / 2 + 2.0),
+            y_corner * (spec.pcb_length_y / 2 + 2.0),
+            spring_post_y_max,
+        ) * bd.Cylinder(
+            radius=7.0 / 2,
+            height=spec.spring_post_length,
+            align=bde.align.ANCHOR_TOP,
+        )
+
     return p
 
 
