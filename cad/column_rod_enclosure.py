@@ -81,8 +81,8 @@ class Spec:
 
     # PCB layout - where do the spring posts go?
     # These spring posts are drawn on the inside of the top wall.
-    spring_post_od = 3.5  # TODO(KS): Check spring ID.
-    spring_post_margin_from_pcb_edge: float = 3.0  # Dist: PCB edge to center of post.
+    spring_post_od = 3.0
+    spring_post_margin_from_pcb_edge: float = 4.5  # Dist: PCB edge to center of post.
 
     # Overall enclosure dimensions.
     enclosure_total_x: float = 130
