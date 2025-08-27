@@ -91,7 +91,7 @@ class Spec:
     enclosure_wall_thickness_bottom: float = 2
     enclosure_wall_thickness_top: float = 2
     enclosure_bottom_wall_standoff_height: float = 4.0  # Avoid THT solder points, nuts.
-    enclosure_bottom_wall_standoff_od: float = 6
+    enclosure_bottom_wall_standoff_od: float = 9.0
 
     # Bolts for joining the top/bottom halves of the enclosure securely.
     joiner_bolt_d: float = 3  # M3.
@@ -344,8 +344,14 @@ def make_enclosure_bottom(spec: Spec) -> bd.Part | bd.Compound:
         )
 
     # Add the stand offs from the bottom wall.
-    for x_val, y_val in spec.get_pcb_raiser_screw_coordinates():
-        p += bd.Pos(x_val, y_val, spec.enclosure_wall_thickness_bottom) * bd.Cylinder(
+    # Used to be at the `spec.get_pcb_raiser_screw_coordinates()` locations, but place
+    # at the corners now.
+    for x_sign, y_sign in product((1, -1), (1, -1)):
+        p += bd.Pos(
+            x_sign * spec.pcb_length_x / 2,
+            y_sign * spec.pcb_length_y / 2,
+            spec.enclosure_wall_thickness_bottom,
+        ) * bd.Cylinder(
             radius=spec.enclosure_bottom_wall_standoff_od / 2,
             height=spec.enclosure_bottom_wall_standoff_height,
             align=bde.align.ANCHOR_BOTTOM,
@@ -367,7 +373,7 @@ def make_enclosure_bottom(spec: Spec) -> bd.Part | bd.Compound:
         spec.enclosure_bottom_wall_standoff_height
         + spec.pcb_thickness
         + spec.cam_motor_od / 2
-        - spec.cam_max_od / 2  # TODO(KS): Not sure what to pick. Min or max for sure.
+        - spec.cam_min_od / 2  # Min: you need max engagement so it can push against.
     )
     for x_sign, y_sign in product((1, -1), (1, -1)):
         p += bd.Pos(
