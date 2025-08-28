@@ -42,8 +42,8 @@ class Spec:
     cell_count_x: int = 4
     dot_hole_id: float = 1.7
 
-    pcb_length_x: float = 95
-    pcb_length_y: float = 99
+    pcb_length_x: float = 95.1
+    pcb_length_y: float = 99.1
 
     # Settings controlling the Z travel of the PCB inside in the enclosure.
     pcb_thickness: float = 0.8
@@ -283,18 +283,13 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
     #     + spec.pcb_travel_z
     # )
     for x_corner, y_corner in product((1, -1), (1, -1)):
-        for x_small_multiplier, y_small_multiplier in ((1, 0), (0, 1)):
+        for x_cut_in, y_cut_in in (
+            (spec.spring_post_margin_from_pcb_edge, spec.spring_post_od),
+            # (spec.spring_post_od, spec.spring_post_margin_from_pcb_edge),
+        ):
             p += bd.Pos(
-                x_corner
-                * (
-                    spec.pcb_length_x / 2
-                    - spec.spring_post_margin_from_pcb_edge * x_small_multiplier
-                ),
-                y_corner
-                * (
-                    spec.pcb_length_y / 2
-                    - spec.spring_post_margin_from_pcb_edge * y_small_multiplier
-                ),
+                x_corner * (spec.pcb_length_x / 2 - x_cut_in),
+                y_corner * (spec.pcb_length_y / 2 - y_cut_in),
                 spring_post_y_max,
             ) * bd.Cylinder(
                 radius=spec.spring_post_od / 2,
@@ -346,7 +341,7 @@ def make_enclosure_bottom(spec: Spec) -> bd.Part | bd.Compound:
     # Add the stand offs from the bottom wall.
     # Used to be at the `spec.get_pcb_raiser_screw_coordinates()` locations, but place
     # at the corners now.
-    for x_sign, y_sign in product((1, -1), (1, -1)):
+    for x_sign, y_sign in product((1, -1, 0), (1, -1)):
         p += bd.Pos(
             x_sign * spec.pcb_length_x / 2,
             y_sign * spec.pcb_length_y / 2,
@@ -401,12 +396,39 @@ def preview_both_enclosure_parts(spec: Spec) -> bd.Part | bd.Compound:
     """Preview both the top and bottom enclosure parts."""
     p = bd.Part(None)
 
-    enclosure_top = make_enclosure_top(spec).translate((0, 0, 3))
-    enclosure_bottom = make_enclosure_bottom(spec).translate((0, 0, -13))
+    enclosure_top = make_enclosure_top(spec).translate((0, 0, 0))
+    enclosure_bottom = make_enclosure_bottom(spec).translate((0, 0, 0))
+
+    pcb_in_lower_pos = bd.Pos(
+        Z=(
+            spec.enclosure_bottom_wall_standoff_height
+            + spec.enclosure_wall_thickness_bottom
+        )
+    ) * bd.Box(
+        spec.pcb_length_x - 0.2,
+        spec.pcb_length_y - 0.2,
+        spec.pcb_thickness,
+        align=bde.align.ANCHOR_BOTTOM,
+    )
+
+    pcb_in_raised_pos = bd.Pos(
+        Z=(
+            spec.enclosure_bottom_wall_standoff_height
+            + spec.enclosure_wall_thickness_bottom
+            + spec.pcb_travel_z
+        )
+    ) * bd.Box(
+        spec.pcb_length_x - 0.2,
+        spec.pcb_length_y - 0.2,
+        spec.pcb_thickness,
+        align=bde.align.ANCHOR_BOTTOM,
+    )
 
     # Debugging: Add a breakpoint on the next line.
     p += enclosure_top
     p += enclosure_bottom
+    p += pcb_in_lower_pos
+    p += pcb_in_raised_pos
 
     return p
 

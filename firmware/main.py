@@ -322,17 +322,26 @@ def demo_gp_leds() -> None:
     PIN_GP_LED_1.value(0)
 
 
-def demo_zeroing_corner_motor() -> None:
-    """Try zeroing the top-left (U10 [corner 0] + U25 [hall 8]) corner motor."""
+def demo_zeroing_corner_motor(corner_number: int) -> None:
+    """Try zeroing the top-left (U10 [corner 0] + U25 [hall 8]) corner motor.
+    
+    Note that the large cam lobe is aligned with the magnet. Thus, when zeroed, the cam
+    presses "into" the PCB.
+    """
+    assert 0<=corner_number <= 3
+    shift_register_motor_number = corner_number + 8
+    hall_sensor_number = corner_number + 8
+
+
     reg_off = [False] * 16
 
     reg_cw = [False] * 16
-    reg_cw[8 + 0] = True
-    reg_cw[8 + 1] = False
+    reg_cw[shift_register_motor_number + 0] = True
+    reg_cw[shift_register_motor_number + 1] = False
 
     reg_ccw = [False] * 16
-    reg_ccw[8 + 0] = False
-    reg_ccw[8 + 1] = True
+    reg_ccw[shift_register_motor_number + 0] = False
+    reg_ccw[shift_register_motor_number + 1] = True
 
     for i in range(100):
         # Set the motor to spin in one direction.
@@ -341,7 +350,7 @@ def demo_zeroing_corner_motor() -> None:
         set_shift_registers(reg_off)
 
         # Read the hall sensor.
-        val = read_hall_sensor_u16(8)
+        val = read_hall_sensor_u16(hall_sensor_number)
         print(f"Hall sensor: {val:,}")
 
         time.sleep(1)
