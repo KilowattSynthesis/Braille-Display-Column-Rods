@@ -306,6 +306,27 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
             align=bde.align.ANCHOR_TOP,
         )
 
+    # Add top-down cam interfaces.
+    # Set this height such that, at the chosen cam state, it is statically determinate
+    # against the spring pegs on the top.
+    cam_interface_z_max = inside_of_box_z_val
+    cam_interface_height = (
+        spec.spring_post_length
+        - spec.cam_motor_od / 2
+        - spec.cam_min_od / 2  # Min: you need max engagement so it can push against.
+    )
+    for x_sign, y_sign in product((1, -1), (1, -1)):
+        p += bd.Pos(
+            x_sign * spec.cam_interface_x_sep / 2,
+            y_sign * spec.cam_interface_y_sep / 2,
+            cam_interface_z_max,
+        ) * bd.Box(
+            spec.cam_interface_width_x,
+            spec.cam_interface_width_y,
+            cam_interface_height,
+            align=bde.align.ANCHOR_TOP,
+        )
+
     # Add an X-Y retention box around the edges.
     p += (
         bd.Box(
