@@ -92,6 +92,7 @@ class Spec:
     enclosure_wall_thickness_top: float = 2
     enclosure_bottom_wall_standoff_height: float = 4.0  # Avoid THT solder points, nuts.
     enclosure_bottom_wall_standoff_od: float = 9.0
+    pcb_retention_wall_thickness: float = 2
 
     # Bolts for joining the top/bottom halves of the enclosure securely.
     joiner_bolt_d: float = 3  # M3.
@@ -267,13 +268,6 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
             align=bde.align.ANCHOR_BOTTOM,
         )
 
-    # Remove the RP2040 cutout.
-    p -= box_from_ranges(
-        range_x=spec.rp2040_cutout_x_range,
-        range_y=spec.rp2040_cutout_y_range,
-        range_z=(-50, 50),
-    )
-
     # Add spring posts.
     spring_post_y_max = inside_of_box_z_val
     # spring_post_y_min = (  # Old complex logic before simplification by substitution.
@@ -297,16 +291,55 @@ def make_enclosure_top(spec: Spec) -> bd.Part | bd.Compound:
                 align=bde.align.ANCHOR_TOP,
             )
 
-        # Add a larger post/stopper right in the corner.
+    # Add a larger post/stopper right in the corners (similar to springs).
+    for x_corner, y_corner in product((1, -1, 0), (1, -1)):
+        # In the corners, these don't make a huge difference because the spring posts
+        # are there anyway. Useful on the edge!
+        corner_outset_distance = 1.0 if x_corner != 0 else 0.0
         p += bd.Pos(
-            x_corner * (spec.pcb_length_x / 2 + 2.0),
-            y_corner * (spec.pcb_length_y / 2 + 2.0),
+            x_corner * spec.pcb_length_x / 2 + (x_corner * corner_outset_distance),
+            y_corner * spec.pcb_length_y / 2 + (y_corner * corner_outset_distance),
             spring_post_y_max,
         ) * bd.Cylinder(
             radius=7.0 / 2,
             height=spec.spring_post_length,
             align=bde.align.ANCHOR_TOP,
         )
+
+    # Add an X-Y retention box around the edges.
+    p += (
+        bd.Box(
+            spec.pcb_length_x + 2 * spec.pcb_retention_wall_thickness,
+            spec.pcb_length_y + 2 * spec.pcb_retention_wall_thickness,
+            spec.spring_post_length + spec.pcb_travel_z + spec.pcb_thickness,
+            align=bde.align.ANCHOR_TOP,
+        )
+        - bd.Box(
+            spec.pcb_length_x,
+            spec.pcb_length_y,
+            100,  # Arbitrary. Cut hole.
+        )
+    ).translate((0, 0, inside_of_box_z_val))
+
+    # Remove viewing holes inline with the DC cam motors (axles in X axis).
+    for x_sign, y_sign in product((1, -1), (1, -1)):
+        p -= bd.Pos(
+            x_sign * (spec.enclosure_total_x / 2),
+            y_sign * (spec.pcb_length_y / 2 - 10.0),
+            spec.enclosure_total_z / 2,
+        ) * bd.Box(
+            # spec.enclosure_wall_thickness_xy * 2.1,  # Little more than the WT.
+            (spec.enclosure_total_x - spec.pcb_length_x) / 2 + 5,
+            15.0,  # Gap size.
+            spec.enclosure_total_z - 5.0,  # Gap size.
+        )
+
+    # Remove the RP2040 cutout.
+    p -= box_from_ranges(
+        range_x=spec.rp2040_cutout_x_range,
+        range_y=spec.rp2040_cutout_y_range,
+        range_z=(-50, 50),
+    )
 
     return p
 
