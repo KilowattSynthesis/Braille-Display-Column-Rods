@@ -108,13 +108,13 @@ class HousingSpec:
     cell_pitch_y: float = 10
 
     # Diameter of dot holes on the top.
-    dot_hole_id: float = 1.3
+    dot_hole_id: float = 0.85
 
     rod_pitch_x: float = 2.5  # Very closely related to the dot pitch.
     dist_rod_max_od_to_top_face: float = 1.5
 
     # JLC: Wall thickness>1.2mm, thinnest part≥0.8mm, hole size≥1.5mm.
-    top_face_thickness: float = 3
+    top_face_thickness: float = 2.0
     left_right_wall_thickness: float = 1.2
     front_back_wall_thickness: float = 2.0
 
