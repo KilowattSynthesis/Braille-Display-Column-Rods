@@ -1,5 +1,6 @@
 from machine import ADC, Pin, I2C
 import time
+import random
 
 # Sleep a bit longer in init to ensure it gets set right.
 SHIFT_REGISTER_INIT_SLEEP_MS = 100
@@ -226,29 +227,73 @@ def set_shift_register_activate_stepper(stepper_num: int) -> None:
     set_shift_registers(reg)
 
 
-def demo_each_corner_motor(duration_each_direction_ms: int = 200) -> None:
-    """Spin each corner motor 1 sec in each direction.
+def set_corner_motor_state(corner_num: int, state: int) -> None:
+    """Activate the corner motor by setting the shift register bits.
+
+    Corner numbers start at 0.
+    """
+    if corner_num < 0 or corner_num > 3:
+        msg = "Corner number must be 0 <= corner_num <= 3."
+        raise ValueError(msg)
+
+    if state not in (-1, 0, 1):
+        raise ValueError("Invalid state value. Must be -1, 0, or 1.")
+
+    reg = [False] * 16
+
+    if state == 0:
+        pass
+    elif state == 1:
+        reg[8 + corner_num * 2 + 0] = True
+        reg[8 + corner_num * 2 + 1] = False
+    elif state == -1:
+        reg[8 + corner_num * 2 + 0] = False
+        reg[8 + corner_num * 2 + 1] = True
+    else:
+        raise ValueError("Invalid state value. Must be -1, 0, or 1.")
+
+    set_shift_registers(reg)
+
+
+def pulse_corner_motor(
+    corner_num: int,
+    direction: int,
+    pulse_ms: int = 5,
+    settle_ms: int = 10,
+) -> None:
+    """Drive the motor for a short pulse in the given direction, then stop."""
+    set_corner_motor_state(corner_num, direction)
+    time.sleep_ms(pulse_ms)
+    set_corner_motor_state(corner_num, 0)
+    time.sleep_ms(settle_ms)
+
+
+def drive_all_corner_motors(direction: int = 1, duration_ms: int = 120) -> None:
+    """Spin each corner motor about a half-turn in a direction.
 
     Order: NW (0), NE (1), SW (2), SE (3).
     """
 
-    for motor_num in range(4):
-        print(f"Spinning motor #{motor_num} - DIR 1")
-        # Set the motor to spin in one direction.
-        reg = [False] * 16
-        reg[8 + motor_num * 2 + 0] = True
-        reg[8 + motor_num * 2 + 1] = False
-        set_shift_registers(reg)
-        time.sleep_ms(duration_each_direction_ms)
+    reg = [False] * 16
 
-        print(f"Spinning motor #{motor_num} - DIR 2")
-        # Set the motor to spin in the other direction.
-        reg = [False] * 16
-        reg[8 + motor_num * 2 + 0] = False
-        reg[8 + motor_num * 2 + 1] = True
-        set_shift_registers(reg)
-        time.sleep_ms(duration_each_direction_ms)
+    for corner_num in range(4):
+        if direction == 0:
+            pass
+        elif direction == 1:
+            reg[8 + corner_num * 2 + 0] = True
+            reg[8 + corner_num * 2 + 1] = False
+        elif direction == -1:
+            reg[8 + corner_num * 2 + 0] = False
+            reg[8 + corner_num * 2 + 1] = True
+        else:
+            raise ValueError("Invalid direction value. Must be -1, 0, or 1.")
 
+    set_shift_registers(reg)
+    
+    if direction != 0:
+        time.sleep_ms(duration_ms)
+
+    set_shift_registers([False] * 16)
 
 def init_hall_sensor() -> None:
     """Initialize the hall sensor pins to default states (select channel 15)."""
@@ -275,6 +320,21 @@ def read_hall_sensor_u16(sensor_num: int) -> int:
     init_hall_sensor()
 
     return val
+
+
+def read_hall_sensor_abs_u16(sensor_num: int) -> int:
+    """Read the hall sensor and return the absolute 16-bit value."""
+    val = read_hall_sensor_u16(sensor_num)
+    return abs((1 << 15) - val)
+
+
+def read_corner_hall_sensor_abs_u16(corner_num: int) -> int:
+    """Read the hall sensor for a specific corner and return the absolute 16-bit value."""
+    if corner_num < 0 or corner_num > 3:
+        msg = "Corner number must be 0 <= corner_num <= 3."
+        raise ValueError(msg)
+
+    return read_hall_sensor_abs_u16(corner_num + 8)
 
 
 def hall_sensor_self_check() -> None:
@@ -324,14 +384,13 @@ def demo_gp_leds() -> None:
 
 def demo_zeroing_corner_motor(corner_number: int) -> None:
     """Try zeroing the top-left (U10 [corner 0] + U25 [hall 8]) corner motor.
-    
+
     Note that the large cam lobe is aligned with the magnet. Thus, when zeroed, the cam
     presses "into" the PCB.
     """
-    assert 0<=corner_number <= 3
-    shift_register_motor_number = corner_number + 8
+    assert 0 <= corner_number <= 3
+    shift_register_motor_number = corner_number * 2 + 8
     hall_sensor_number = corner_number + 8
-
 
     reg_off = [False] * 16
 
@@ -354,6 +413,92 @@ def demo_zeroing_corner_motor(corner_number: int) -> None:
         print(f"Hall sensor: {val:,}")
 
         time.sleep(1)
+
+
+def is_at_peak(measurements: list[int], min_sample_count: int) -> bool:
+    """Check if the current measurement is a peak."""
+    if len(measurements) < min_sample_count:
+        return False
+
+    middle_val = measurements[len(measurements) // 2]
+    return all(middle_val >= m for m in measurements)
+
+
+def zero_corner_motors(
+    corner_numbers: list[int] | None = None,
+    timeout_per_motor_ms: int = 2000,
+    min_valid_value: int = 1000,
+    min_sample_count: int = 9,  # Best if it's odd.
+) -> None:
+    """Zero the specified corner motors.
+
+    Note that the large cam lobe is aligned with the magnet. Thus, when zeroed, the cam
+    presses "into" the PCB and the max abs hall sensor value should be minimized.
+
+    For each corner motor (0..3):
+      - Find a local maximum of the hall sensor value using greedy ascent.
+      - Stop the motor positioned at that local maximum.
+      - Timeout after 3 seconds per motor.
+    """
+    if corner_numbers is None:
+        corner_numbers = [0, 1, 2, 3]
+
+    print(f"Zeroing corner motors: {corner_numbers}")
+
+    failed_corners: list[int] = []
+
+    for corner_num in corner_numbers:
+        start = time.ticks_ms()
+
+        # Stop the motor.
+        set_corner_motor_state(corner_num, 0)
+
+        last_n_measurements: list[int] = []
+        while True:
+            # Check for timeout.
+            if time.ticks_ms() - start > timeout_per_motor_ms:
+                set_corner_motor_state(corner_num, 0)
+                failed_corners.append(corner_num)
+                print(f"Failed to zero corner motor {corner_num}.")
+                break
+
+            # Step to new position.
+            pulse_corner_motor(corner_num, 1)
+
+            # Read the hall sensor value.
+            val = read_corner_hall_sensor_abs_u16(corner_num=corner_num)
+            print(f"Corner {corner_num} - abs hall sensor: {val:,}")
+
+            # Skip "considering" the measurement if it's not valid.
+            # For example, if a magnet fell off a shaft, this value will be useless.
+            if val < min_valid_value:
+                continue
+
+            # Update the list of last N measurements.
+            last_n_measurements.append(val)
+            if len(last_n_measurements) > min_sample_count:
+                last_n_measurements.pop(0)
+
+            if is_at_peak(last_n_measurements, min_sample_count):
+                print(f"Peak detected for corner {corner_num}! Halting.")
+                for _ in range(min_sample_count // 2):
+                    pulse_corner_motor(corner_num, -1)  # Step motor back.
+                break
+
+    if failed_corners:
+        raise RuntimeError(f"Timeout while zeroing corner motors: {failed_corners}")
+
+    print("Zeroing complete.")
+
+
+def demo_random_corner_positions(corner_numbers: list[int] | None = None) -> None:
+    if corner_numbers is None:
+        corner_numbers = [0, 1, 2, 3]
+
+    for corner_num in corner_numbers:
+        # Move the motor to a random position.
+        random_position = random.randint(10, 1000)
+        pulse_corner_motor(corner_num, 1, pulse_ms=random_position)
 
 
 def demo_driving_stepper_motor() -> None:
@@ -454,25 +599,6 @@ def main() -> None:
 
     while True:
         prompt_and_execute()
-
-    # print("Starting demo_zeroing_corner_motor()")
-    # demo_zeroing_corner_motor()
-    # print("Done demo_zeroing_corner_motor()")
-
-    # demo_driving_stepper_motor()
-
-    # while 1:
-    #     print("Starting demo_each_corner_motor()")
-    #     demo_each_corner_motor(duration_each_direction_ms=500)
-    #     print("Done demo_each_corner_motor()")
-
-    #     print("Starting demo_read_each_hall_sensor()")
-    #     demo_read_each_hall_sensor()
-    #     print("Done demo_read_each_hall_sensor()")
-
-    # while 1:
-    #     print("Starting rolling sphere demo.")
-    #     braille_demo_try_to_roll_sphere()
 
 
 while True:
