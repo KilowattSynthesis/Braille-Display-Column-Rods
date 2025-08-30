@@ -21,6 +21,8 @@ from cad.components.tiny_dc_motor_with_gearbox import (
     make_dc_motor_and_gearbox,
 )
 
+# TODO(KilowattSynthesis): Add pegs into slots that mate with the PCB.
+
 
 @dataclass(kw_only=True)
 class MainSpec:
@@ -38,11 +40,11 @@ class MainSpec:
 
     cam_main_od: float = 8.0
 
-    # "zero" refers to the homing magnet holder section.
+    # Section: "homing" refers to the extra length where the magnet is located.
     homing_length: float = 3.0
     homing_od: float = 3.5
 
-    magnet_od = 2.0
+    magnet_od = 2.1  # Nominally 2.0, but easier to glue in with a bit more.
     magnet_depth: float = 2.0  # Nominally 1.0, but a bit extra is good.
 
     cam_to_block_slop: float = 1.0
