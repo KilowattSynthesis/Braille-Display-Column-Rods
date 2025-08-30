@@ -24,29 +24,36 @@ class MainSpec:
 
     motor_od: float = 6
 
-    # Motor length must be "motor+gearbox+shaft_lip"
+    # Motor length variable here is "motor+gearbox+shaft_lip".
     motor_length_plus_gearbox_plus_shaft_lip: float = 19.8
     motor_x_limit_thickness: float = 1.3
     motor_shaft_lip_length: float = 1.1
 
+    # Peg settings (in corners).
+    peg_sep_y: float = 9.0
+    peg_od: float = 3.0
+    peg_height: float = 1.0
+
+    # Screw hole settings (in center).
+    # TODO(KilowattSynthesis): Make these holes M2 on the PCB.
+    screw_hole_sep_y: float = 10.0  # Shift the M2 screws toward the outsides.
+    screw_d: float = 1.9  # M2 thread-forming.
+
+    # Other core layout settings.
     hole_spacing_x: float = 5.3
-    hole_count_x: int = 3
-
-    hole_spacing_y: float = 9.0
-
-    corner_screw_d: float = 2.8
-    center_screw_d: float = 3.25
-
-    bolt_head_od: float = 5.6
-    bolt_head_height: float = 0.001  # Disabled, basically.
-
     top_wall_t: float = 1.5
+    total_y: float = 16.0
 
     def __post_init__(self) -> None:
         """Post initialization checks."""
         data = {
             "total_x": self.total_x,
             "total_z": self.total_z,
+            "wall_thickness_past_screw_hole": (
+                # Wall thickness past the screw holes.
+                # Validate: >=1.5 or >=2.0 roughly.
+                (self.total_y / 2) - (self.screw_hole_sep_y / 2 + self.screw_d / 2)
+            ),
         }
         logger.info(json.dumps(data, indent=2))
 
@@ -77,15 +84,21 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part | bd.Compound:
     p = bd.Part(None)
 
     # Draw the main body.
-    p += bd.Pos(
+    main_body = bd.Part(None) + bd.Pos(
         X=-spec.motor_length_plus_gearbox_plus_shaft_lip / 2
         - spec.motor_x_limit_thickness
     ) * bd.Box(
         spec.total_x,
-        spec.hole_spacing_y + 8,
+        spec.total_y,
         spec.total_z,
         align=(bd.Align.MIN, bd.Align.CENTER, bd.Align.MIN),
     )
+    p += main_body.fillet(
+        radius=1.6,
+        # Round all edges except the bottom edges.
+        edge_list=main_body.edges() - main_body.faces().sort_by(bd.Axis.Z)[0].edges(),
+    )
+    del main_body
 
     # Remove bottom half of motor.
     # Make it easy to slide the motor in.
@@ -95,15 +108,6 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part | bd.Compound:
         spec.motor_od / 2,
         align=bde.align.ANCHOR_BOTTOM,
     )
-
-    # Remove thin walls around the holes.
-    for x_val in bde.evenly_space_with_center(spacing=spec.hole_spacing_x, count=3):
-        p -= bd.Pos(X=x_val) * bd.Box(
-            max(spec.corner_screw_d, spec.corner_screw_d) + 0.1,
-            spec.hole_spacing_y,
-            spec.motor_od * 0.75,
-            align=bde.align.ANCHOR_BOTTOM,
-        )
 
     # Remove space for wires out the back.
     p -= bd.Pos(
@@ -125,37 +129,21 @@ def make_dc_motor_clamp(spec: MainSpec) -> bd.Part | bd.Compound:
     ).rotate(axis=bd.Axis.Y, angle=90)
 
     # Remove the screw holes.
-    for x_value, y_value in product(
-        [0],
-        bde.evenly_space_with_center(spacing=spec.hole_spacing_y, count=2),
-    ):
-        p -= bd.Pos(X=x_value, Y=y_value) * bd.Cylinder(
-            radius=spec.center_screw_d / 2,
+    for y_sign in (1, -1):
+        p -= bd.Pos(X=0, Y=y_sign * spec.screw_hole_sep_y / 2) * bd.Cylinder(
+            radius=spec.screw_d / 2,
             height=40,
             align=bde.align.ANCHOR_BOTTOM,
         )
 
-    # Remove the bolt head for the outermost screw holes.
-    for x_value, y_value in product(
-        bde.evenly_space_with_center(spacing=spec.hole_spacing_x * 2, count=2),
-        bde.evenly_space_with_center(spacing=spec.hole_spacing_y, count=2),
-    ):
-        # Remove the screw holes.
-        p -= bd.Pos(X=x_value, Y=y_value) * bd.Cylinder(
-            radius=spec.corner_screw_d / 2,
-            height=40,
-            align=bde.align.ANCHOR_BOTTOM,
-        )
-
-        # Remove the bolt head.
-        p -= bd.Pos(
-            X=x_value,
-            Y=y_value,
-            Z=spec.total_z - spec.bolt_head_height,
+    # Add the pegs (in corners).
+    for x_sign, y_sign in product((-1, 1), (-1, 1)):
+        p += bd.Pos(
+            X=x_sign * spec.hole_spacing_x, Y=y_sign * spec.peg_sep_y / 2
         ) * bd.Cylinder(
-            radius=spec.bolt_head_od / 2,
-            height=spec.bolt_head_height,
-            align=bde.align.ANCHOR_BOTTOM,
+            radius=spec.peg_od / 2,
+            height=spec.peg_height,
+            align=bde.align.ANCHOR_TOP,
         )
 
     return p
